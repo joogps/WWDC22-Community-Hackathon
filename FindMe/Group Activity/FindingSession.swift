@@ -195,7 +195,7 @@ class FindingSession: ObservableObject {
     // this will ONLY be run by guessers
     func makeGuess(location: CLLocationCoordinate2D) {
         guard let me = me else { return }
-        let guess = Guess(personId: me.id, location: location)
+        let guess = Guess(person: me, location: location)
         gameState = .guesserWaitingForOthers
         if let messenger = messenger {
             Task {
@@ -230,8 +230,9 @@ struct SelectedLocationMessage: Codable {
     var endGuessTime: Date
 }
 
-struct Guess: Codable {
-    var personId: UUID
+struct Guess: Codable, Identifiable {
+    var id: UUID { person.id }
+    var person: Person
     var location: CLLocationCoordinate2D
 }
 
