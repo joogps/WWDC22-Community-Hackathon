@@ -20,6 +20,7 @@ class FindingSession: ObservableObject {
     @Published var host: Person?
     @Published var game: Game?
     
+    
     var subscriptions = Set<AnyCancellable>()
     var tasks = Set<Task<(), Never>>()
     
@@ -69,13 +70,14 @@ class FindingSession: ObservableObject {
     
     func startGame() {
         let finder = people.randomElement()!
-        self.game = Game(finder: finder)
+        self.game = Game(finder: finder, endGuessTime: .now + 90)
         
         if let messenger = messenger {
             Task {
                 do {
                     try await messenger.send(game)
                 } catch {
+                    
                 }
             }
         }
@@ -86,6 +88,7 @@ struct Game: Codable {
     var finder: Person
     var location: CLLocationCoordinate2D?
     var guesses: [Guess] = []
+    var endGuessTime: Date
 }
 
 struct Guess: Codable {

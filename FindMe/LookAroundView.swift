@@ -13,10 +13,12 @@ struct LookAroundView: View {
     
     @State var lookAroundScene: MKLookAroundScene?
     @State var presenting = false
+    @EnvironmentObject var finding: FindingSession
     
     var body: some View {
         HStack {
             if let lookAroundScene {
+                
                 LookAroundViewRepresentable(scene: lookAroundScene)
                     .frame(height: 200)
                     .cornerRadius(24)
@@ -25,14 +27,15 @@ struct LookAroundView: View {
                         DispatchQueue.main.async {
                             presenting.toggle()
                         }
-                    }.sheetWithDetents(isPresented: $presenting,
-                                       presentOnTop: true,
-                                       detents: [.large(), .medium()],
-                                       onDismiss: {},
-                                       content: {
-                        Text("Test")
-                            .sheetStyle()
-                    })
+                    }
+//                    .sheetWithDetents(isPresented: $presenting,
+//                                       presentOnTop: true,
+//                                       detents: [.large(), .medium()],
+//                                       onDismiss: {},
+//                                       content: {
+//                        Text("Test")
+//                            .sheetStyle()
+//                    })
             }
         }.task {
             let sceneRequest = MKLookAroundSceneRequest(coordinate: coordinate)
@@ -40,6 +43,92 @@ struct LookAroundView: View {
                 lookAroundScene = try await sceneRequest.scene
             } catch {
                 
+            }
+        }
+        .onAppear{
+            presenting.toggle()
+        }
+        .sheet(isPresented: $presenting, content: {
+            MakeGuessView()
+        })
+    }
+}
+
+
+struct MakeGuessView: View {
+    @EnvironmentObject var finding: FindingSession
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 37.334_900,
+                                       longitude: -122.009_020),
+        latitudinalMeters: 750,
+        longitudinalMeters: 750
+    )
+    @State var timeRemaining = 44.0
+    var body: some View {
+        GeometryReader { geo in
+            VStack {
+                ZStack{
+                    
+                    Rectangle()
+                        .fill(Material.ultraThinMaterial)
+                        .ignoresSafeArea()
+                        .frame(height: 120)
+                    
+                    VStack{
+                        HStack {
+                            Text("Make Your Guess")
+                                .font(.system(size: 20,weight: .bold))
+                                .padding(.horizontal)
+                            Spacer()
+                            Text("4/6")
+                                .font(.system(size: 16, weight: .light))
+                                .padding(.horizontal)
+                            
+                            //                    if let me = finding.me {
+                            ZStack{
+                                Text("JG")
+                                    .padding()
+                                    .background(
+                                        Circle()
+                                            .fill(.red) //me.color
+                                        
+                                    )
+                                
+                            }.padding(.horizontal)
+                            //                    }
+                            
+                        }
+                        ZStack(alignment: .leading){
+                            
+                            Rectangle().frame( height: 10).foregroundColor(.white)
+                            
+                            Rectangle().frame(width: (self.timeRemaining / 90.0) * geo.size.width, height: 10).foregroundColor(.blue)
+                        }
+                        
+                        
+                    }
+                }.frame(height: 95)
+                    .offset(y:10)
+                
+                
+                ZStack {
+                    Map(coordinateRegion: $region)
+                        .edgesIgnoringSafeArea(.all)
+                        .offset(y:-10)
+                    VStack{
+                        HStack(alignment: .top) {
+                            Spacer()
+                            Text("\(Int(round(self.timeRemaining))) seconds remaining")
+                        }
+                    }
+                }
+                
+            }
+            .task {
+                if let game = finding.game {
+                    self.timeRemaining = game.endGuessTime.timeIntervalSince1970 - Date().timeIntervalSince1970
+                    print("timeRemaining: \(timeRemaining)")
+                }
             }
         }
     }
