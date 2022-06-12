@@ -11,6 +11,7 @@ import MapKit
 struct MapView: UIViewRepresentable {
     @Binding var centerCoordinate: CLLocationCoordinate2D
     @Binding var pinLocation: CLLocationCoordinate2D
+    @EnvironmentObject var finding: FindingSession
     
     let mapView = MKMapView()
     
@@ -19,14 +20,30 @@ struct MapView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> MKMapView {
         mapView.delegate = context.coordinator
+
         let polyline = MKPolyline(coordinates: lineCoordinates, count: lineCoordinates.count)
         mapView.addOverlay(polyline)
         
+
+        
+        
+
+
         return mapView
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
-        //print(#function)
+        
+        
+        if finding.gameState == .end {
+            print("adding Lines")
+            for guessCoordinate in lineCoordinates {
+                let polyline = MKPolyline(coordinates: [guessCoordinate, finding.selectedLocation!], count: 2)
+                mapView.addOverlay(polyline)
+            }
+        }
+        
+        
     }
     
     func makeCoordinator() -> Coordinator {
@@ -65,14 +82,15 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-            if let routePolyline = overlay as? MKPolyline {
-                let renderer = MKPolylineRenderer(polyline: routePolyline)
-                renderer.strokeColor = UIColor.systemBlue
-                renderer.lineWidth = 5
-                return renderer
-            }
-            return MKOverlayRenderer()
+          if let routePolyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: routePolyline)
+            renderer.strokeColor = UIColor.systemBlue
+            renderer.lineWidth = 5
+            return renderer
+          }
+          return MKOverlayRenderer()
         }
-        
+
     }
 }
+

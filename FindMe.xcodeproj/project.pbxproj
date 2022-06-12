@@ -7,47 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		272952EF2855270200A095F9 /* FindMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272952EE2855270200A095F9 /* FindMeApp.swift */; };
-		272952F12855270200A095F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272952F02855270200A095F9 /* ContentView.swift */; };
 		272952F32855270400A095F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 272952F22855270400A095F9 /* Assets.xcassets */; };
 		272952F62855270400A095F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 272952F52855270400A095F9 /* Preview Assets.xcassets */; };
-		27E5EEFD2855B8290094CC7B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E5EEFC2855B8290094CC7B /* MapView.swift */; };
-		27E5EEFF2855B83A0094CC7B /* GuessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E5EEFE2855B83A0094CC7B /* GuessingView.swift */; };
-		27F3874D285536D0003E9615 /* PeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3874C285536D0003E9615 /* PeopleView.swift */; };
+		27E43DAD2855D22800BA731F /* GuessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E43DAC2855D22800BA731F /* GuessingView.swift */; };
+		27E43DAF2855D23A00BA731F /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E43DAE2855D23A00BA731F /* LookAroundView.swift */; };
 		27F3875428553A0E003E9615 /* FontBlaster in Frameworks */ = {isa = PBXBuildFile; productRef = 27F3875328553A0E003E9615 /* FontBlaster */; };
-		27F3876128553E18003E9615 /* FindingGroupActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876028553E18003E9615 /* FindingGroupActivity.swift */; };
-		27F38766285540ED003E9615 /* FindingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F38765285540ED003E9615 /* FindingSession.swift */; };
-		27F387682855527C003E9615 /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F387672855527C003E9615 /* LookAroundView.swift */; };
-		27F3876A28555CCE003E9615 /* SheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876928555CCE003E9615 /* SheetPresentation.swift */; };
-		27F3876C285567A6003E9615 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876B285567A6003E9615 /* Color.swift */; };
-		27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */; };
-		27F3877028556E9A003E9615 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876F28556E9A003E9615 /* LobbyView.swift */; };
-		27F3877228557579003E9615 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3877128557579003E9615 /* GameView.swift */; };
-		27F387742855A4AD003E9615 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F387732855A4AD003E9615 /* LocationManager.swift */; };
-		9C3B998A2855A8B500CEB2FE /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3B99892855A8B500CEB2FE /* LeaderboardView.swift */; };
+		9C2E3AB22855CB07002B5239 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3A9E2855CB07002B5239 /* ContentView.swift */; };
+		9C2E3AB32855CB07002B5239 /* FindingGroupActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA02855CB07002B5239 /* FindingGroupActivity.swift */; };
+		9C2E3AB42855CB07002B5239 /* FindingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA12855CB07002B5239 /* FindingSession.swift */; };
+		9C2E3AB52855CB07002B5239 /* FindMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA22855CB07002B5239 /* FindMeApp.swift */; };
+		9C2E3AB62855CB07002B5239 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA42855CB07002B5239 /* CLLocationCoordinate2D.swift */; };
+		9C2E3AB72855CB07002B5239 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA52855CB07002B5239 /* Color.swift */; };
+		9C2E3AB82855CB07002B5239 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA62855CB07002B5239 /* LobbyView.swift */; };
+		9C2E3AB92855CB07002B5239 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA82855CB07002B5239 /* GameView.swift */; };
+		9C2E3ABB2855CB07002B5239 /* PeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AAA2855CB07002B5239 /* PeopleView.swift */; };
+		9C2E3ABC2855CB07002B5239 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AAB2855CB07002B5239 /* LeaderboardView.swift */; };
+		9C2E3ABD2855CB07002B5239 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AAC2855CB07002B5239 /* LocationManager.swift */; };
+		9C2E3ABE2855CB07002B5239 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AAE2855CB07002B5239 /* MapView.swift */; };
+		9C2E3AC02855CB07002B5239 /* SheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AB02855CB07002B5239 /* SheetPresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		272952EB2855270200A095F9 /* FindMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		272952EE2855270200A095F9 /* FindMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMeApp.swift; sourceTree = "<group>"; };
-		272952F02855270200A095F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		272952F22855270400A095F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		272952F52855270400A095F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		27E5EEFC2855B8290094CC7B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		27E5EEFE2855B83A0094CC7B /* GuessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessingView.swift; sourceTree = "<group>"; };
-		27F3874C285536D0003E9615 /* PeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleView.swift; sourceTree = "<group>"; };
+		27E43DAC2855D22800BA731F /* GuessingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuessingView.swift; sourceTree = "<group>"; };
+		27E43DAE2855D23A00BA731F /* LookAroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
 		27F3875028553820003E9615 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		27F3876028553E18003E9615 /* FindingGroupActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingGroupActivity.swift; sourceTree = "<group>"; };
 		27F3876228553EB7003E9615 /* FindMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FindMe.entitlements; sourceTree = "<group>"; };
-		27F38765285540ED003E9615 /* FindingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingSession.swift; sourceTree = "<group>"; };
-		27F387672855527C003E9615 /* LookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
-		27F3876928555CCE003E9615 /* SheetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentation.swift; sourceTree = "<group>"; };
-		27F3876B285567A6003E9615 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
-		27F3876F28556E9A003E9615 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
-		27F3877128557579003E9615 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
-		27F387732855A4AD003E9615 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		9C3B99892855A8B500CEB2FE /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		9C2E3A9B2855CB06002B5239 /* FindMe-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FindMe-Bridging-Header.h"; sourceTree = "<group>"; };
+		9C2E3A9E2855CB07002B5239 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9C2E3AA02855CB07002B5239 /* FindingGroupActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindingGroupActivity.swift; sourceTree = "<group>"; };
+		9C2E3AA12855CB07002B5239 /* FindingSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindingSession.swift; sourceTree = "<group>"; };
+		9C2E3AA22855CB07002B5239 /* FindMeApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindMeApp.swift; sourceTree = "<group>"; };
+		9C2E3AA42855CB07002B5239 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
+		9C2E3AA52855CB07002B5239 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		9C2E3AA62855CB07002B5239 /* LobbyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
+		9C2E3AA82855CB07002B5239 /* GameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		9C2E3AAA2855CB07002B5239 /* PeopleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleView.swift; sourceTree = "<group>"; };
+		9C2E3AAB2855CB07002B5239 /* LeaderboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		9C2E3AAC2855CB07002B5239 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		9C2E3AAE2855CB07002B5239 /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		9C2E3AB02855CB07002B5239 /* SheetPresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetPresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,15 +84,17 @@
 			children = (
 				27F3876228553EB7003E9615 /* FindMe.entitlements */,
 				27F3875028553820003E9615 /* Info.plist */,
-				272952EE2855270200A095F9 /* FindMeApp.swift */,
-				272952F02855270200A095F9 /* ContentView.swift */,
-				27F3876F28556E9A003E9615 /* LobbyView.swift */,
-				27E5EF012855B86B0094CC7B /* Game */,
-				27E5EEFB2855B8000094CC7B /* CustomViews */,
-				27E5EF002855B8580094CC7B /* Conform */,
-				27F38764285540DD003E9615 /* Group Activity */,
 				272952F22855270400A095F9 /* Assets.xcassets */,
+				9C2E3AA22855CB07002B5239 /* FindMeApp.swift */,
+				9C2E3A9E2855CB07002B5239 /* ContentView.swift */,
+				9C2E3AA62855CB07002B5239 /* LobbyView.swift */,
+				9C2E3AAA2855CB07002B5239 /* PeopleView.swift */,
+				9C2E3AA72855CB07002B5239 /* Game */,
+				9C2E3AAD2855CB07002B5239 /* CustomViews */,
+				9C2E3AA32855CB07002B5239 /* Conform */,
+				9C2E3A9F2855CB07002B5239 /* Group Activity */,
 				272952F42855270400A095F9 /* Preview Content */,
+				9C2E3A9B2855CB06002B5239 /* FindMe-Bridging-Header.h */,
 			);
 			path = FindMe;
 			sourceTree = "<group>";
@@ -104,44 +107,43 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		27E5EEFB2855B8000094CC7B /* CustomViews */ = {
+		9C2E3A9F2855CB07002B5239 /* Group Activity */ = {
 			isa = PBXGroup;
 			children = (
-				27F387672855527C003E9615 /* LookAroundView.swift */,
-				27F3876928555CCE003E9615 /* SheetPresentation.swift */,
-				27E5EEFC2855B8290094CC7B /* MapView.swift */,
+				9C2E3AA02855CB07002B5239 /* FindingGroupActivity.swift */,
+				9C2E3AA12855CB07002B5239 /* FindingSession.swift */,
 			);
-			path = CustomViews;
+			path = "Group Activity";
 			sourceTree = "<group>";
 		};
-		27E5EF002855B8580094CC7B /* Conform */ = {
+		9C2E3AA32855CB07002B5239 /* Conform */ = {
 			isa = PBXGroup;
 			children = (
-				27F3876B285567A6003E9615 /* Color.swift */,
-				27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */,
+				9C2E3AA42855CB07002B5239 /* CLLocationCoordinate2D.swift */,
+				9C2E3AA52855CB07002B5239 /* Color.swift */,
 			);
 			path = Conform;
 			sourceTree = "<group>";
 		};
-		27E5EF012855B86B0094CC7B /* Game */ = {
+		9C2E3AA72855CB07002B5239 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				27F3874C285536D0003E9615 /* PeopleView.swift */,
-				27F3877128557579003E9615 /* GameView.swift */,
-				27E5EEFE2855B83A0094CC7B /* GuessingView.swift */,
-				9C3B99892855A8B500CEB2FE /* LeaderboardView.swift */,
-				27F387732855A4AD003E9615 /* LocationManager.swift */,
+				27E43DAC2855D22800BA731F /* GuessingView.swift */,
+				9C2E3AA82855CB07002B5239 /* GameView.swift */,
+				9C2E3AAB2855CB07002B5239 /* LeaderboardView.swift */,
+				9C2E3AAC2855CB07002B5239 /* LocationManager.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
 		};
-		27F38764285540DD003E9615 /* Group Activity */ = {
+		9C2E3AAD2855CB07002B5239 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				27F3876028553E18003E9615 /* FindingGroupActivity.swift */,
-				27F38765285540ED003E9615 /* FindingSession.swift */,
+				9C2E3AAE2855CB07002B5239 /* MapView.swift */,
+				27E43DAE2855D23A00BA731F /* LookAroundView.swift */,
+				9C2E3AB02855CB07002B5239 /* SheetPresentation.swift */,
 			);
-			path = "Group Activity";
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -179,6 +181,7 @@
 				TargetAttributes = {
 					272952EA2855270200A095F9 = {
 						CreatedOnToolsVersion = 14.0;
+						LastSwiftMigration = 1400;
 					};
 				};
 			};
@@ -220,21 +223,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27F387682855527C003E9615 /* LookAroundView.swift in Sources */,
-				272952F12855270200A095F9 /* ContentView.swift in Sources */,
-				27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */,
-				27F3876128553E18003E9615 /* FindingGroupActivity.swift in Sources */,
-				9C3B998A2855A8B500CEB2FE /* LeaderboardView.swift in Sources */,
-				272952EF2855270200A095F9 /* FindMeApp.swift in Sources */,
-				27E5EEFF2855B83A0094CC7B /* GuessingView.swift in Sources */,
-				27F3877228557579003E9615 /* GameView.swift in Sources */,
-				27E5EEFD2855B8290094CC7B /* MapView.swift in Sources */,
-				27F3877028556E9A003E9615 /* LobbyView.swift in Sources */,
-				27F38766285540ED003E9615 /* FindingSession.swift in Sources */,
-				27F387742855A4AD003E9615 /* LocationManager.swift in Sources */,
-				27F3874D285536D0003E9615 /* PeopleView.swift in Sources */,
-				27F3876A28555CCE003E9615 /* SheetPresentation.swift in Sources */,
-				27F3876C285567A6003E9615 /* Color.swift in Sources */,
+				9C2E3AB32855CB07002B5239 /* FindingGroupActivity.swift in Sources */,
+				9C2E3ABB2855CB07002B5239 /* PeopleView.swift in Sources */,
+				9C2E3AB42855CB07002B5239 /* FindingSession.swift in Sources */,
+				9C2E3ABE2855CB07002B5239 /* MapView.swift in Sources */,
+				9C2E3AC02855CB07002B5239 /* SheetPresentation.swift in Sources */,
+				27E43DAF2855D23A00BA731F /* LookAroundView.swift in Sources */,
+				27E43DAD2855D22800BA731F /* GuessingView.swift in Sources */,
+				9C2E3AB52855CB07002B5239 /* FindMeApp.swift in Sources */,
+				9C2E3AB62855CB07002B5239 /* CLLocationCoordinate2D.swift in Sources */,
+				9C2E3AB22855CB07002B5239 /* ContentView.swift in Sources */,
+				9C2E3ABC2855CB07002B5239 /* LeaderboardView.swift in Sources */,
+				9C2E3ABD2855CB07002B5239 /* LocationManager.swift in Sources */,
+				9C2E3AB82855CB07002B5239 /* LobbyView.swift in Sources */,
+				9C2E3AB92855CB07002B5239 /* GameView.swift in Sources */,
+				9C2E3AB72855CB07002B5239 /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,11 +363,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = FindMe/FindMe.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FindMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TW2C8488Q9;
+				DEVELOPMENT_TEAM = V9F4J6KX54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
@@ -380,12 +385,15 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.christian.FindMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.FindMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "FindMe/FindMe-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -396,11 +404,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = FindMe/FindMe.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FindMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TW2C8488Q9;
+				DEVELOPMENT_TEAM = V9F4J6KX54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
@@ -415,12 +425,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.christian.FindMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.FindMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "FindMe/FindMe-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

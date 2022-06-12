@@ -22,13 +22,7 @@ struct GuessingView: View {
                                                                             longitude: -122.009_020)
     
     //add line coordinates after everyone has guessed
-    @State private var lineCoordinates: [CLLocationCoordinate2D] = [
-        // Steve Jobs theatre
-        CLLocationCoordinate2D(latitude: 37.330828, longitude: -122.007495),
-        // Caffè Macs
-        CLLocationCoordinate2D(latitude: 37.336083, longitude: -122.007356),
-        // Apple wellness center
-        CLLocationCoordinate2D(latitude: 37.336901, longitude:  -122.012345)]
+    @State private var allGuessCoordinates: [CLLocationCoordinate2D] = []
     
     var body: some View {
             VStack {
@@ -71,9 +65,7 @@ struct GuessingView: View {
                 }.frame(height: 95)
                 
                 ZStack {
-                    MapView(centerCoordinate: .constant(region.center),
-                            pinLocation: $pinLocation,
-                            lineCoordinates: lineCoordinates)
+                    MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lineCoordinates: allGuessCoordinates).environmentObject(finding)
                     .edgesIgnoringSafeArea(.all)
                     
                     VStack {
