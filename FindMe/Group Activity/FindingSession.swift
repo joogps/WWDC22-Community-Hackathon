@@ -139,7 +139,7 @@ class FindingSession: ObservableObject {
     func handle(_ message: Guess) async {
         guesses.append(message)
         if guesses.count == people.count {
-            gameDidEnd()
+            gameState = .timeLimitUp
         }
     }
     
@@ -147,21 +147,6 @@ class FindingSession: ObservableObject {
         if case .waitingForSelector = gameState {
             selectedLocation = message.location
             gameState = .guessingLocation
-            startGameTimer()
-        }
-    }
-    
-    var gameTimer: Timer?
-    
-    func startGameTimer() {
-        gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            
-            if let endTime = self.endTime {
-                if endTime.timeIntervalSinceNow <= 0 {
-                    self.gameDidEnd()
-                }
-            }
         }
     }
     
@@ -217,12 +202,6 @@ class FindingSession: ObservableObject {
                 }
             }
         }
-    }
-    
-    func gameDidEnd() {
-        gameTimer?.invalidate()
-        people.append(contentsOf: peopleToAddNextRound)
-        gameState = .timeLimitUp
     }
     
     func leaveSession() {

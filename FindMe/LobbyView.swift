@@ -38,7 +38,7 @@ struct LobbyView: View {
                 Spacer()
             }
         }.ignoresSafeArea()
-            .sheetWithDetents(isPresented: .constant(finding.game == nil),
+            .sheetWithDetents(isPresented: .constant(finding.gameState == .waitingForPlayers),
                               detents: [.large(), .medium()],
                               onDismiss: {}) {
                 PeopleView()
