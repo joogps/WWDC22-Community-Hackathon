@@ -11,51 +11,61 @@ import MapKit
 struct ContentView: View {
     @State var region: MKCoordinateRegion = .init(center: .init(latitude: .zero, longitude: .zero),
                                                   span: .init(latitudeDelta: 80.0, longitudeDelta: 80.0))
-    @ObservedObject var finding = FindingSession()
-    @State var showLookaround = true
+    @EnvironmentObject var finding: FindingSession
+    @State var showLookaround = false
     
     var body: some View {
-        if !showLookaround {
-            ZStack {
-                
-                
-                Map(coordinateRegion: $region)
-                
-                VStack {
+        Group {
+            switch finding.gameState {
+            case .waitingForPlayers:
+                ZStack {
                     
-                    HStack {
+                    
+                    Map(coordinateRegion: $region)
+                    
+                    VStack {
+                        
                         HStack {
-                            Image(systemName: "globe.desk")
-                                .opacity(0.5)
-                            Text("FindMe")
-                            Button("Switch") {
-                                self.showLookaround.toggle()
+                            HStack {
+                                Image(systemName: "globe.desk")
+                                    .opacity(0.5)
+                                Text("FindMe")
+                                Button("Switch") {
+                                    self.showLookaround.toggle()
+                                }
                             }
+                            .padding(.vertical, 80)
+                            .padding(.horizontal, 30)
+                            Spacer()
                         }
-                        .padding(.vertical, 80)
-                        .padding(.horizontal, 30)
+                        .font(.largeTitle.bold())
+                        .background {
+                            Rectangle()
+                                .fill(.linearGradient(colors: [.black, .black.opacity(0.0)],
+                                                      startPoint: .top,
+                                                      endPoint: .bottom))
+                        }
                         Spacer()
                     }
-                    .font(.largeTitle.bold())
-                    .background {
-                        Rectangle()
-                            .fill(.linearGradient(colors: [.black, .black.opacity(0.0)],
-                                                  startPoint: .top,
-                                                  endPoint: .bottom))
-                    }
-                    Spacer()
                 }
-            }.ignoresSafeArea()
-                .sheetWithDetents(isPresented: .constant(true),
-                                  detents: [.large(), .medium()],
-                                  onDismiss: {}) {
-                    PeopleView()
-                        .sheetStyle()
-                        .environmentObject(finding)
-                    
+                .ignoresSafeArea()
+            case .selectingLocation, .waitingForOthersToGuess:
+                LookAroundView().environmentObject(finding)
+            case .timeLimitUp:
+                VStack {
+                    Text("time limit up")
+                    Text("guesses: \(finding.guesses.description)")
                 }
-        } else {
-            LookAroundView().environmentObject(finding)
+            }
+        }
+        .sheetWithDetents(
+            isPresented: .constant(true),
+            detents: [.large(), .medium()],
+            onDismiss: {}
+        ) {
+            PeopleView()
+                .sheetStyle()
+                .environmentObject(finding)
         }
     }
 }

@@ -12,37 +12,53 @@ struct PeopleView: View {
     @EnvironmentObject var finding: FindingSession
     
     var body: some View {
-        VStack {
-            HStack {
-                VStack {
-                    Text("Players")
-                        .font(.system(size: 32, weight: .heavy, design: .default))
-                        .fixedSize()
-                    
-                    if finding.groupSession == nil {
-                        Button("Start") {
-                            Task {
-                                do {
-                                    let _ = try await FindingActivity().activate()
-                                } catch {
-                                    
+        switch finding.gameState {
+        case .waitingForPlayers:
+            VStack {
+                HStack {
+                    VStack {
+                        Text("Players")
+                            .font(.system(size: 32, weight: .heavy, design: .default))
+                            .fixedSize()
+                        
+                        if finding.groupSession == nil {
+                            Button("Start group session") {
+                                Task {
+                                    do {
+                                        let _ = try await FindingActivity().activate()
+                                    } catch {
+                                        
+                                    }
                                 }
                             }
+                        } else {
+                            Button("Start game") {
+                                finding.startGame()
+                            }
                         }
+                    }
+                    
+                    Spacer()
+                }
+                
+                LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
+                    ForEach(0..<6) { person in
+                        PersonView()
                     }
                 }
                 
                 Spacer()
+            }.padding(32)
+        case .selectingLocation:
+            Button("submit random") {
+                
             }
-            
-            LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
-                ForEach(0..<6) { person in
-                    PersonView()
-                }
-            }
-            
-            Spacer()
-        }.padding(32)
+        case .waitingForOthersToGuess:
+            Text("waiting for others to guess. hurry up")
+        case .timeLimitUp:
+            Text("time limit is UP. need to make this view show winner or something")
+        }
+        
     }
 }
 
