@@ -114,8 +114,6 @@ struct MakeGuessView: View {
         longitudinalMeters: 750
     )
     @State var timeRemaining = 44.0
-    @State var guess: Guess = Guess(location: CLLocationCoordinate2D(latitude: 37.334_900,
-                                                                     longitude: -122.009_020))
     @State var pinLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334_900,
                                                                             longitude: -122.009_020)
     var body: some View {
@@ -179,7 +177,11 @@ struct MakeGuessView: View {
                                 Text("Time's up")
                             } else {
                                 Text("\(Int(round(self.timeRemaining))) seconds remaining")
-                            }                        }
+                            }
+                        }
+                        Button("submit guess") {
+                            finding.makeGuess(location: pinLocation)
+                        }
                         Spacer()
                     }
                 }
