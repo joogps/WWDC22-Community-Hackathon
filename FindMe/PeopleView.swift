@@ -32,9 +32,9 @@ struct PeopleView: View {
                     } else {
                         if finding.game == nil {
                             Button("Start game") {
-                                let finder = finding.people.randomElement()!
-                                finding.game = Game(finder: finder)
-                                finding.sendGame()
+//                                let finder = finding.people.randomElement()!
+//                                finding.game = Game(finder: finder)
+//                                finding.sendGame()
                             }.buttonStyle(ProminentButtonStyle())
                         }
                     }

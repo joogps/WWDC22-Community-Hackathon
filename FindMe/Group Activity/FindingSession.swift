@@ -12,8 +12,22 @@ import MapKit
 
 enum GameState {
     case waitingForPlayers
-    case selectingLocation
-    case waitingForOthersToGuess
+    
+    // When you are the selector, and you need to select a location for others to guess.
+    case selectLocationForOthers
+    
+    // When you are a guesser, and you are waiting for the selector to select a location.
+    case waitingForSelector
+    
+    // When you are a selector, and you are waiting for guessers to find your location.
+    case selectorWaitingForGuesses
+    
+    // When you are a guesser, and you are guessing the location that the selector selected.
+    case guessingLocation
+    
+    // When you are a guesser, and you are waiting for others to make their guesses.
+    case guesserWaitingForOthers
+    
     case timeLimitUp
 }
 
@@ -89,18 +103,24 @@ class FindingSession: ObservableObject {
         DispatchQueue.main.async {
             // we dont want to append new players if the game has already started
             // instead they should be added next round
-            if case .waitingForPlayers = gameState {
+            if case .waitingForPlayers = self.gameState {
                 self.people.append(message)
                 
             } else {
-                peopleToAddNextRound.append(message)
+                self.peopleToAddNextRound.append(message)
             }
         }
     }
     
     func handle(_ message: Game) async {
-        gameState = .selectingLocation
         game = message
+        
+        if message.locationSelector.id == me?.id && message.location == nil {
+            gameState = .selectLocationForOthers
+        } else {
+            gameState = .waitingForSelector
+        }
+        
         startGameTimer()
     }
     
@@ -133,7 +153,8 @@ class FindingSession: ObservableObject {
     }
     
     func startGame() {
-        let newGame = Game(endGuessTime: .now + 90)
+        let finder = people.randomElement()!
+        let newGame = Game(finder: finder, endGuessTime: .now + 90)
         gameState = .selectingLocation
         game = newGame
         startGameTimer()
@@ -153,6 +174,8 @@ class FindingSession: ObservableObject {
         people.append(contentsOf: peopleToAddNextRound)
         gameState = .timeLimitUp
     }
+    
+    
     
     func makeGuess(location: CLLocationCoordinate2D) {
         guard let me = me else { return }
@@ -183,6 +206,7 @@ class FindingSession: ObservableObject {
 }
 
 struct Game: Codable {
+    var locationSelector: Person
     var location: CLLocationCoordinate2D?
     var endGuessTime: Date
 }

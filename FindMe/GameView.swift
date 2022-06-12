@@ -13,15 +13,15 @@ struct GameView: View {
     var body: some View {
         ZStack {
             Color.accentColor.ignoresSafeArea()
-            if finding.game?.finder == finding.me {
+            if finding.game?.locationSelector == finding.me {
                 if let location = finding.game?.location {
-                    Text("\(finding.game?.guesses.count ?? 0) guesses")
+//                    Text("\(finding.game?.guesses.count ?? 0) guesses")
                 } else {
                     VStack {
                         Text("Pick a place")
                         Button("Submit Golden Gate") {
                             finding.game?.location = .init(latitude: 37.73536, longitude: -122.40709)
-                            finding.sendGame()
+//                            finding.sendGame()
                         }.buttonStyle(ProminentButtonStyle())
                     }
                 }
