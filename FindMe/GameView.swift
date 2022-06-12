@@ -33,8 +33,9 @@ struct GameView: View {
                             Text("Ryan's view")
                         }
                     }
-                } else {
-                    Text("Someone is picking a place")
+                } else if let picker = finding.game?.finder {
+                    Text("\(picker.name) is picking a place")
+                        .bold()
                 }
             }
         }

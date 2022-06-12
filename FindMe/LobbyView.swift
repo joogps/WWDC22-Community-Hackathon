@@ -13,9 +13,21 @@ struct LobbyView: View {
                                                   span: .init(latitudeDelta: 80.0, longitudeDelta: 80.0))
     @EnvironmentObject var finding: FindingSession
     
+    @State var showingNamePicker = true
+    @StateObject var locationManager = LocationManager()
+    
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $region)
+            Map(coordinateRegion: $region,
+                showsUserLocation: true,
+                annotationItems: finding.people.filter { $0.location != nil}) { person in
+                MapAnnotation(coordinate: person.location!) {
+                    Text(person.initials)
+                        .bold()
+                        .padding(12)
+                        .background(Circle().fill(Color.accentColor))
+                }
+            }
             
             VStack {
                 HStack {
@@ -45,6 +57,11 @@ struct LobbyView: View {
                     .sheetStyle()
                     .environmentObject(finding)
             }
+          .alert("Pick name", isPresented: $showingNamePicker) {
+              TextField("Name", text: $finding.name)
+          }.onChange(of: locationManager.lastLocation) { location in
+              finding.location = location?.coordinate
+          }
     }
 }
 

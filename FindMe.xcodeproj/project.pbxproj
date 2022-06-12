@@ -21,6 +21,7 @@
 		27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */; };
 		27F3877028556E9A003E9615 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876F28556E9A003E9615 /* LobbyView.swift */; };
 		27F3877228557579003E9615 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3877128557579003E9615 /* GameView.swift */; };
+		27F387742855A4AD003E9615 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F387732855A4AD003E9615 /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		27F3876F28556E9A003E9615 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 		27F3877128557579003E9615 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		27F387732855A4AD003E9615 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				27F3876F28556E9A003E9615 /* LobbyView.swift */,
 				27F3874C285536D0003E9615 /* PeopleView.swift */,
 				27F3877128557579003E9615 /* GameView.swift */,
+				27F387732855A4AD003E9615 /* LocationManager.swift */,
 				27F387672855527C003E9615 /* LookAroundView.swift */,
 				27F3876928555CCE003E9615 /* SheetPresentation.swift */,
 				27F38764285540DD003E9615 /* Group Activity */,
@@ -192,6 +195,7 @@
 				27F3877228557579003E9615 /* GameView.swift in Sources */,
 				27F3877028556E9A003E9615 /* LobbyView.swift in Sources */,
 				27F38766285540ED003E9615 /* FindingSession.swift in Sources */,
+				27F387742855A4AD003E9615 /* LocationManager.swift in Sources */,
 				27F3874D285536D0003E9615 /* PeopleView.swift in Sources */,
 				27F3876A28555CCE003E9615 /* SheetPresentation.swift in Sources */,
 				27F3876C285567A6003E9615 /* Color.swift in Sources */,
@@ -328,6 +332,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turn location on if you want to show up on the map!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,6 +368,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Turn location on if you want to show up on the map!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

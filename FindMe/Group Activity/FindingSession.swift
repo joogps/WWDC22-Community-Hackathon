@@ -19,6 +19,8 @@ class FindingSession: ObservableObject {
     @Published var me: Person?
     @Published var game: Game?
     
+    @AppStorage("name") var name = "Person"
+    @Published var location: CLLocationCoordinate2D?
     
     var subscriptions = Set<AnyCancellable>()
     var tasks = Set<Task<(), Never>>()
@@ -26,7 +28,9 @@ class FindingSession: ObservableObject {
     func configureGroupSession(_ groupSession: GroupSession<FindingActivity>) async {
         DispatchQueue.main.async {
             self.groupSession = groupSession
-            self.me = Person(id: groupSession.localParticipant.id)
+            self.me = Person(id: groupSession.localParticipant.id,
+                             name: self.name,
+                             location: self.location)
             self.people.append(self.me!)
         }
         
@@ -34,7 +38,7 @@ class FindingSession: ObservableObject {
         self.messenger = messenger
         
         groupSession.$activeParticipants.sink { activeParticipants in
-            let newParticipants = activeParticipants.filter( { !Set(self.people.map { person in
+            _ = activeParticipants.filter( { !Set(self.people.map { person in
                 person.id
             }).contains($0.id) } )
             
@@ -122,8 +126,17 @@ struct Guess: Codable {
     var location: CLLocationCoordinate2D
 }
 
-struct Person: Identifiable, Codable, Equatable, Hashable {
+struct Person: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String = UIDevice.current.name
+    var location: CLLocationCoordinate2D?
+    var initials: String {
+        let formatter = PersonNameComponentsFormatter()
+        if let components = formatter.personNameComponents(from: name) {
+            formatter.style = .abbreviated
+            return formatter.string(from: components)
+        }
+        return ""
+    }
     // var color: Color = [Color.blue, Color.yellow, Color.red, Color.green].randomElement()!
 }
