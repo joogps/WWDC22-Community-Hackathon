@@ -14,8 +14,7 @@ struct FindingActivity: GroupActivity {
     var metadata: GroupActivityMetadata {
         var metadata = GroupActivityMetadata()
         metadata.type = .generic
-        metadata.title = "Play a finding game"
-        metadata.subtitle = "GEINJSDOMzclx"
+        metadata.title = "Play FindMe"
         
         return metadata
     }

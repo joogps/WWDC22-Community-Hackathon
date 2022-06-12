@@ -28,12 +28,14 @@ struct PeopleView: View {
                                     
                                 }
                             }
-                        }
+                        }.buttonStyle(ProminentButtonStyle())
                     } else {
                         if finding.game == nil {
                             Button("Start game") {
-                                finding.startGame()
-                            }
+                                let finder = finding.people.randomElement()!
+                                finding.game = Game(finder: finder)
+                                finding.sendGame()
+                            }.buttonStyle(ProminentButtonStyle())
                         }
                     }
                 }
@@ -41,13 +43,9 @@ struct PeopleView: View {
                 Spacer()
             }
             
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color.accentColor)
-                .frame(height: 30)
-            
             LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
-                ForEach(0..<6) { person in
-                    PersonView()
+                ForEach(finding.people) { person in
+                    PersonView(person: person)
                 }
             }
             
@@ -57,10 +55,12 @@ struct PeopleView: View {
 }
 
 struct PersonView: View {
+    let person: Person
+    
     var body: some View {
         ZStack {
             Capsule().fill(Color.accentColor)
-            Label("Ryan Du", systemImage: "person.fill")
+            Label(person.name, systemImage: "person.fill")
                 .bold()
                 .padding()
         }
@@ -81,5 +81,45 @@ extension View {
 struct PeopleView_Previews: PreviewProvider {
     static var previews: some View {
         PeopleView()
+    }
+}
+
+/// Button
+public extension View {
+    func elastic(active: Bool) -> some View {
+        self.modifier(ElasticModifier(active: active))
+    }
+}
+
+struct ElasticModifier: ViewModifier {
+    var active: Bool
+    
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(active ? 0.9 : 1.0)
+            .animation(.spring(), value: active)
+    }
+}
+
+
+public struct ElasticButtonStyle: ButtonStyle {
+    public init() {}
+    
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label.elastic(active: configuration.isPressed)
+    }
+}
+
+public struct ProminentButtonStyle: ButtonStyle {
+    public init() {}
+    
+    public func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color.accentColor.shadow(.inner(color: .white.opacity(0.25), radius: 3, y: 3)))
+                .frame(height: 60)
+            configuration.label
+                .font(.headline.bold())
+        }.elastic(active: configuration.isPressed)
     }
 }

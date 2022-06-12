@@ -11,13 +11,31 @@ struct GameView: View {
     @EnvironmentObject var finding: FindingSession
     
     var body: some View {
-        if finding.game?.finder == finding.me {
-            Text("Find a place")
-        } else {
-            if let location = finding.game?.location {
-                
+        ZStack {
+            Color.accentColor.ignoresSafeArea()
+            if finding.game?.finder == finding.me {
+                if let location = finding.game?.location {
+                    Text("\(finding.game?.guesses.count ?? 0) guesses")
+                } else {
+                    VStack {
+                        Text("Pick a place")
+                        Button("Submit Golden Gate") {
+                            finding.game?.location = .init(latitude: 37.73536, longitude: -122.40709)
+                            finding.sendGame()
+                        }.buttonStyle(ProminentButtonStyle())
+                    }
+                }
             } else {
-                Text("Someone is finding a place")
+                if let location = finding.game?.location {
+                    VStack {
+                        Text("Find the place!")
+                        LookAroundView(coordinate: location) {
+                            Text("Ryan's view")
+                        }
+                    }
+                } else {
+                    Text("Someone is picking a place")
+                }
             }
         }
     }

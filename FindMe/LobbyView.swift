@@ -39,14 +39,15 @@ struct LobbyView: View {
             }
         }.ignoresSafeArea()
             .sheetWithDetents(isPresented: .constant(finding.game == nil),
-                          detents: [.large(), .medium()],
-                          onDismiss: {}) {
-            PeopleView()
-                .sheetStyle()
-                .environmentObject(finding)
-        }
+                              detents: [.large(), .medium()],
+                              onDismiss: {}) {
+                PeopleView()
+                    .sheetStyle()
+                    .environmentObject(finding)
+            }
     }
 }
+
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {
         LobbyView()

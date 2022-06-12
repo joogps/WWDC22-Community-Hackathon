@@ -11,7 +11,6 @@ import MapKit
 struct LookAroundView<Content: View>: View {
     var coordinate = CLLocationCoordinate2D(latitude: 37.73536, longitude: -122.40709)
     
-    
     @State var lookAroundScene: MKLookAroundScene?
     @State var presenting = false
     
