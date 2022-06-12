@@ -14,7 +14,7 @@ struct PeopleView: View {
     var body: some View {
         VStack {
             HStack(spacing: 16) {
-                Text("People")
+                Text("Players")
                     .font(.title.bold())
                     .fixedSize()
                 Spacer()
@@ -43,6 +43,14 @@ struct PeopleView: View {
                         .transition(.scale)
                 }
             }.padding(24)
+            
+            Spacer()
+            
+            VStack {
+                Image(systemName: "figure.walk")
+                    .font(.system(size: 64))
+                Text("waiting for other players")
+            }.foregroundStyle(.tertiary)
             
             Spacer()
         }
