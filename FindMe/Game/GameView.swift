@@ -40,7 +40,8 @@ struct GameView: View {
             case .waitingForSelector:
                 WaitingTitle()
             case .end:
-                Text("Done! guesses: \(finding.guesses.description)")
+                LeaderboardView()
+                    .environmentObject(finding)
             case .waitingForPlayers:
                 EmptyView()
             }
