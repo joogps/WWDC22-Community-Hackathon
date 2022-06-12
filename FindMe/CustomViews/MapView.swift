@@ -13,17 +13,17 @@ final class LocationAnnotationView: MKAnnotationView {
 
     // MARK: Initialization
 
-    init(annotation: MKAnnotation?, reuseIdentifier: String?, initials: String) {
+    init(annotation: MKAnnotation?, reuseIdentifier: String?, initials: String, systemImage: String? = nil) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
-        frame = CGRect(x: 0, y: 0, width: 40, height: 50)
+        frame = CGRect(x: 0, y: 0, width: 60, height: 60)
         centerOffset = CGPoint(x: 0, y: -frame.size.height / 2)
 
         canShowCallout = true
 //        if let annotation = annotation {
 //            setupUI(initials: ((annotation.title) ?? "📌")!)
 //        }
-        setupUI(initials: initials)
+        setupUI(initials: initials, systemImage: systemImage)
         
     }
 
@@ -34,10 +34,10 @@ final class LocationAnnotationView: MKAnnotationView {
 
     // MARK: Setup
 
-    private func setupUI(initials: String) {
+    private func setupUI(initials: String, systemImage: String? = nil) {
         backgroundColor = .clear
 
-        let vc = UIHostingController(rootView: InitialsViewTiny(initials: initials))
+        let vc = UIHostingController(rootView: CircleView(initials: initials, systemIcon: systemImage, padding: 4))
         vc.view.backgroundColor = .clear
         guard let view = vc.view else {
             print("ERRORRRRRRRR")
@@ -48,8 +48,6 @@ final class LocationAnnotationView: MKAnnotationView {
         view.frame = bounds
     }
 }
-
-
 
 struct MapView: UIViewRepresentable {
     @Binding var centerCoordinate: CLLocationCoordinate2D
@@ -142,8 +140,8 @@ struct MapView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
           if let routePolyline = overlay as? MKPolyline {
             let renderer = MKPolylineRenderer(polyline: routePolyline)
-            renderer.strokeColor = UIColor.systemBlue
-            renderer.lineWidth = 5
+            renderer.strokeColor = UIColor(Color.accentColor)
+            renderer.lineWidth = 6
             return renderer
           }
           return MKOverlayRenderer()
@@ -156,13 +154,21 @@ struct MapView: UIViewRepresentable {
             print(annotation.coordinate)
             print("guesses coordinates")
             print(self.parent.finding.guesses.map({$0.location}))
+            
             var initials = self.parent.finding.guesses.first(where: { $0.location == annotation.coordinate })?.person.initials
+            var systemImage: String? = nil
+            
             if initials == nil {
                 if annotation.coordinate == self.parent.finding.selectedLocation {
-                    initials = "⭐"
+                    systemImage = "star.fill"
+                } else {
+                    systemImage = "pin.fill"
                 }
             }
-            let customAnnotation = LocationAnnotationView(annotation: annotation, reuseIdentifier: "pinId", initials: initials ?? "📌" )
+            
+            let customAnnotation = LocationAnnotationView(annotation: annotation, reuseIdentifier: "pinId",
+                                                          initials: initials ?? "",
+                                                        systemImage: systemImage)
             return customAnnotation
         }
         

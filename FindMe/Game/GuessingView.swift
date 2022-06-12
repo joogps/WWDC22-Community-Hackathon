@@ -38,18 +38,20 @@ struct GuessingView: View {
                             VStack(alignment: .leading) {
                                 Text("Make Your Guess")
                                     .font(.custom("SF Pro Expanded Heavy", size: 24, relativeTo: .title2))
+                                    .allowsTightening(true)
+                                    .minimumScaleFactor(0.0)
                                 
                                 TimelineView(.animation) { context in
                                     Text("\(Int(finding.endDate!.timeIntervalSince1970-context.date.timeIntervalSince1970)) seconds remaining")
                                         .font(.callout)
                                         .foregroundStyle(.secondary)
                                 }
-                            }.padding(.horizontal)
+                            }.padding(.horizontal, 2)
                             Spacer()
                             Text("\(finding.guesses.count)/\(finding.people.count-1)")
                                 .padding(.horizontal, 2)
                             
-                            InitialsViewTiny(initials: finding.me?.initials ?? "You")
+                            CircleView(initials: finding.me?.initials ?? "You")
                         }
                         .offset(y: 10)
                         .padding()

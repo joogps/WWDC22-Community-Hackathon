@@ -22,7 +22,8 @@ struct LobbyView: View {
                 showsUserLocation: true,
                 annotationItems: finding.people.filter { $0.location != nil}) { person in
                 MapAnnotation(coordinate: person.location!) {
-                    InitialsView(initials: person.initials)
+                    CircleView(initials: person.initials)
+                        .transition(.scale)
                 }
             }
             
@@ -38,7 +39,6 @@ struct LobbyView: View {
                     .padding(.horizontal, 30)
                     Spacer()
                 }
-                //.font(.largeTitle.bold())
                 .background {
                     Rectangle()
                         .fill(.linearGradient(colors: [.black, .black.opacity(0.0)],
@@ -73,26 +73,26 @@ struct LobbyView: View {
     }
 }
 
-struct InitialsView: View {
+struct CircleView: View {
     let initials: String
+    var systemIcon: String?
+    
+    var padding = 12.0
     
     var body: some View {
-        Text(initials)
-            .bold()
-            .padding(12)
-            .background(Circle().fill(Color.accentColor))
+        Group {
+            if let systemIcon {
+                Image(systemName: systemIcon)
+            } else {
+                Text(initials)
+            }
+        }
+        .bold()
+        .padding(padding)
+        .background(Circle().fill(Color.accentColor))
     }
 }
-struct InitialsViewTiny: View {
-    let initials: String
-    
-    var body: some View {
-        Text(initials)
-//            .bold()
-            .padding(2)
-            .background(Circle().fill(Color.accentColor))
-    }
-}
+
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {
         LobbyView()

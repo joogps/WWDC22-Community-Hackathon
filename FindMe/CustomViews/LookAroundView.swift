@@ -21,7 +21,7 @@ struct LookAroundView<Content: View>: View {
             if let lookAroundScene {
                 LookAroundViewRepresentable(scene: lookAroundScene)
                     .frame(height: 200)
-                    .cornerRadius(24)
+                    .cornerRadius(16)
                     .padding(20)
                     .onTapGesture {
                         DispatchQueue.main.async {
@@ -56,6 +56,7 @@ struct LookAroundViewRepresentable: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIViewControllerType {
         let lookAround = MKLookAroundViewController(scene: scene)
+        lookAround.pointOfInterestFilter = .excludingAll
         return lookAround
     }
     

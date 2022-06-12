@@ -45,15 +45,13 @@ struct PeopleView: View {
                 }
             }.padding(24)
             
-            Spacer()
-            
-            VStack {
+            /* VStack {
                 Image(systemName: "figure.walk")
                     .font(.system(size: 64))
                     .padding()
                 Text("waiting for other players")
                     .bold()
-            }.foregroundStyle(.tertiary)
+            }.foregroundStyle(.tertiary) */
             
             Spacer()
         }

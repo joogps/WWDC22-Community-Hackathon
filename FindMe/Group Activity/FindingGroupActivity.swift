@@ -7,6 +7,7 @@
 
 import Foundation
 import GroupActivities
+import SwiftUI
 
 struct FindingActivity: GroupActivity {
     static let activityIdentifier = "com.joogps.FindMe.finding"
@@ -15,6 +16,7 @@ struct FindingActivity: GroupActivity {
         var metadata = GroupActivityMetadata()
         metadata.type = .generic
         metadata.title = "Play FindMe"
+        metadata.subtitle = "Have fun in a game of hide and seek."
         
         return metadata
     }

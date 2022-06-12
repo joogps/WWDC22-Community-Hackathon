@@ -22,7 +22,8 @@ struct GameView: View {
                 case .guessingLocation:
                     if let selectedLocation = finding.selectedLocation {
                         VStack {
-                            Text("Find the place!")
+                            Text("Tap below to explore!")
+                                .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
                             LookAroundView(coordinate: selectedLocation) {
                                 GuessingView()
                                     .environmentObject(finding)
@@ -45,12 +46,7 @@ struct GameView: View {
             .transition(.move(edge: .bottom).combined(with: .opacity))
             .zIndex(1)
             .animation(.spring(), value: finding.gameState)
-        }.onChange(of: finding.gameState) { state in
-            if state != .guessingLocation {
-                UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
-            }
         }
-        .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
     }
 }
 

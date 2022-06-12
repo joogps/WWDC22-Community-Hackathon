@@ -320,6 +320,7 @@ struct Person: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String = UIDevice.current.name
     var location: CLLocationCoordinate2D?
+    
     var initials: String {
         let formatter = PersonNameComponentsFormatter()
         if let components = formatter.personNameComponents(from: name) {

@@ -33,13 +33,12 @@ struct SelectView: View {
                         let sceneRequest = MKLookAroundSceneRequest(coordinate: pinLocation)
                         do {
                             scene = try await sceneRequest.scene
-                            finding.selectLocation(location: pinLocation)
                         } catch {
                             self.error = true
                         }
                     }
-                    
-                }
+                }.ignoresSafeArea()
+            
             VStack(alignment: .leading) {
                 VStack(alignment: .leading) {
                     Text("Select a location for everyone to find!")
@@ -56,6 +55,12 @@ struct SelectView: View {
                     .ultraThinMaterial
                 )
                 Spacer()
+                
+                Button("Make selection") {
+                    finding.selectLocation(location: pinLocation)
+                }.disabled(scene == nil)
+                    .buttonStyle(ProminentButtonStyle())
+                    .padding()
             }
         }
     }
