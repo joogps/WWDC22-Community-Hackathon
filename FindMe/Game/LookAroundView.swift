@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct LookAroundView<Content: View>: View {
-    var coordinate = CLLocationCoordinate2D(latitude: 37.73536, longitude: -122.40709)
+    var coordinate = CLLocationCoordinate2D(latitude: 37.33044, longitude: -121.89355)
     
     @State var lookAroundScene: MKLookAroundScene?
     @State var presenting = false

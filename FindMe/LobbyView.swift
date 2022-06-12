@@ -22,10 +22,7 @@ struct LobbyView: View {
                 showsUserLocation: true,
                 annotationItems: finding.people.filter { $0.location != nil}) { person in
                 MapAnnotation(coordinate: person.location!) {
-                    Text(person.initials)
-                        .bold()
-                        .padding(12)
-                        .background(Circle().fill(Color.accentColor))
+                    InitialsView(initials: person.initials)
                 }
             }
             
@@ -62,6 +59,17 @@ struct LobbyView: View {
           }.onChange(of: locationManager.lastLocation) { location in
               finding.location = location?.coordinate
           }
+    }
+}
+
+struct InitialsView: View {
+    let initials: String
+    
+    var body: some View {
+        Text(initials)
+            .bold()
+            .padding(12)
+            .background(Circle().fill(Color.accentColor))
     }
 }
 
