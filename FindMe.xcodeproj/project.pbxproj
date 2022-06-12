@@ -107,8 +107,8 @@
 		27E5EEFB2855B8000094CC7B /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				27F387672855527C003E9615 /* LookAroundView.swift */,
 				27F3876928555CCE003E9615 /* SheetPresentation.swift */,
-				27E5EEFE2855B83A0094CC7B /* GuessingView.swift */,
 				27E5EEFC2855B8290094CC7B /* MapView.swift */,
 			);
 			path = CustomViews;
@@ -128,7 +128,7 @@
 			children = (
 				27F3874C285536D0003E9615 /* PeopleView.swift */,
 				27F3877128557579003E9615 /* GameView.swift */,
-				27F387672855527C003E9615 /* LookAroundView.swift */,
+				27E5EEFE2855B83A0094CC7B /* GuessingView.swift */,
 				9C3B99892855A8B500CEB2FE /* LeaderboardView.swift */,
 				27F387732855A4AD003E9615 /* LocationManager.swift */,
 			);
