@@ -116,6 +116,13 @@ class FindingSession: ObservableObject {
         }
         self.tasks.insert(selectedLocationMessage)
         
+        let restartMessage = Task.detached { [weak self] in
+            for await (message, _) in messenger.messages(of: RestartMessage.self) {
+                await self?.handle(message)
+            }
+        }
+        self.tasks.insert(restartMessage)
+        
         groupSession.join()
     }
     
@@ -148,8 +155,11 @@ class FindingSession: ObservableObject {
     func handle(_ message: GuessMessage) async {
         DispatchQueue.main.async {
             self.guesses.append(message)
+            print(self.guesses.count)
+            print(self.people.count)
             if self.guesses.count == self.people.count-1 {
                 self.gameState = .end
+                print("did end")
             }
         }
     }
@@ -165,6 +175,27 @@ class FindingSession: ObservableObject {
                 self.endDate = message.endDate
             }
         }
+    }
+    
+    func handle(_ message: RestartMessage) async {
+        DispatchQueue.main.async {
+            self.reset()
+        }
+    }
+    
+    func reset() {
+        self.gameState = .waitingForPlayers
+        self.selector = nil
+        for person in peopleToAddNextRound {
+            if !people.contains(where: { $0.id == person.id }) {
+                people.append(person)
+            }
+        }
+        peopleToAddNextRound.removeAll()
+        self.guesses.removeAll()
+        self.selectedLocation = nil
+        self.startDate = nil
+        self.endDate = nil
     }
     
     func startGame() {
@@ -217,14 +248,18 @@ class FindingSession: ObservableObject {
             guesses.append(guess)
             
             gameState = .guesserWaitingForOthers
+            print(guesses.count)
+            print(people.count)
             if self.guesses.count == self.people.count-1 {
                 self.gameState = .end
+                print("did end")
             }
             
             if let messenger = messenger {
                 Task {
                     do {
                         try await messenger.send(guess)
+                        print("sent guess")
                     } catch {
                         
                     }
@@ -261,6 +296,10 @@ struct GuessMessage: Codable, Identifiable {
     var id: UUID { person.id }
     var person: Person
     var location: CLLocationCoordinate2D
+}
+
+struct RestartMessage: Codable {
+    var shouldRestart = true
 }
 
 struct Person: Identifiable, Codable, Equatable {
