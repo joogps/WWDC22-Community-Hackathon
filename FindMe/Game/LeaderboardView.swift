@@ -39,7 +39,7 @@ struct LeaderboardView: View {
                             Text("\(winner.id == finding.me?.id ? "You" : winner.name) won!")
                                 .font(.custom("SF Pro Expanded Bold", size: 24))
                             
-                            Text("\(winner.id == finding.me?.id ? "You" : "They") were \(distance) km away from the location \(selector.name) chose.")
+                            Text("\(winner.id == finding.me?.id ? "You" : "They") were \(distance) meters away from the location \(selector.name) chose.")
                                 .bold()
                                 .foregroundStyle(.secondary)
                                 .multilineTextAlignment(.center)
@@ -79,13 +79,12 @@ struct LeaderboardView: View {
                 }
                 
                 if let location = finding.selectedLocation {
-                    self.center = location
-                    
                     func distance(guess: CLLocationCoordinate2D) -> Double {
-                        self.distance(guess: guess, location: location)
+                        CLLocation(latitude: guess.latitude, longitude: guess.longitude)
+                            .distance(from: CLLocation(latitude: location.latitude, longitude: location.longitude))
                     }
                     
-                    winner = finding.guesses.sorted(by: { distance(guess: $0.location) > distance(guess: $1.location) }).first?.person
+                    winner = finding.guesses.sorted(by: { distance(guess: $0.location) < distance(guess: $1.location) }).first?.person
                     if let guess = finding.guesses.first(where: { $0.person.id == winner?.id }) {
                         self.distance = Int(distance(guess: guess.location))
                     }

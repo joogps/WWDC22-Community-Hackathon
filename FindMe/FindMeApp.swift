@@ -17,6 +17,9 @@ struct FindMeApp: App {
             ContentView()
                 .environmentObject(finding)
                 .preferredColorScheme(.dark)
+                .onAppear {
+                    FontBlaster.blast()
+                }
         }
     }
 }
