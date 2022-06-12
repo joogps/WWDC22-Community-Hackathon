@@ -185,7 +185,6 @@ struct MakeGuessView: View {
                         Spacer()
                     }
                 }
-                
             }
             .task {
                 if let game = finding.game {

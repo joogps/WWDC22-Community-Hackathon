@@ -37,16 +37,14 @@ class FindingSession: ObservableObject {
     var messenger: GroupSessionMessenger?
     
     @Published var people: [Person] = []
-    
     @Published var peopleToAddNextRound: [Person] = []
     
     @Published var me: Person?
-    
-    @Published var game: Game?
-    
-    @Published var selectedLocation: CLLocationCoordinate2D?
+    @Published var selector: Person?
     
     @Published var guesses: [Guess] = []
+    @Published var selectedLocation: CLLocationCoordinate2D?
+    @Published var endTime: Date?
     
     @Published var gameState: GameState = .waitingForPlayers
     
@@ -84,33 +82,33 @@ class FindingSession: ObservableObject {
             print("New state: \(state)")
         }.store(in: &subscriptions)
         
-        let personTask = Task.detached { [weak self] in
+        let personMessageTask = Task.detached { [weak self] in
             for await (message, _) in messenger.messages(of: Person.self) {
                 await self?.handle(message)
             }
         }
-        self.tasks.insert(personTask)
+        self.tasks.insert(personMessageTask)
         
-        let gameTask = Task.detached { [weak self] in
-            for await (message, _) in messenger.messages(of: Game.self) {
+        let locationSelectorMessageTask = Task.detached { [weak self] in
+            for await (message, _) in messenger.messages(of: SetLocationSelectorMessage.self) {
                 await self?.handle(message)
             }
         }
-        self.tasks.insert(gameTask)
+        self.tasks.insert(locationSelectorMessageTask)
         
-        let guessTask = Task.detached { [weak self] in
+        let guessMessageTask = Task.detached { [weak self] in
             for await (message, _) in messenger.messages(of: Guess.self) {
                 await self?.handle(message)
             }
         }
-        self.tasks.insert(guessTask)
+        self.tasks.insert(guessMessageTask)
         
-        let selectorLocationTask = Task.detached { [weak self] in
-            for await (message, _) in messenger.messages(of: SelectorLocation.self) {
+        let selectedLocationMessage = Task.detached { [weak self] in
+            for await (message, _) in messenger.messages(of: SelectedLocationMessage.self) {
                 await self?.handle(message)
             }
         }
-        self.tasks.insert(selectorLocationTask)
+        self.tasks.insert(selectedLocationMessage)
         
         groupSession.join()
     }
@@ -128,29 +126,28 @@ class FindingSession: ObservableObject {
         }
     }
     
-    func handle(_ message: Game) async {
-        game = message
+    func handle(_ message: SetLocationSelectorMessage) async {
+        selector = message.locationSelector
         
         if message.locationSelector.id == me?.id {
             gameState = .selectLocationForOthers
         } else {
             gameState = .waitingForSelector
         }
-        
-        startGameTimer()
     }
     
-    func handle(_ guess: Guess) async {
-        guesses.append(guess)
+    func handle(_ message: Guess) async {
+        guesses.append(message)
         if guesses.count == people.count {
             gameDidEnd()
         }
     }
     
-    func handle(_ selectorLocation: SelectorLocation) async {
+    func handle(_ message: SelectedLocationMessage) async {
         if case .waitingForSelector = gameState {
-            selectedLocation = selectorLocation.location
+            selectedLocation = message.location
             gameState = .guessingLocation
+            startGameTimer()
         }
     }
     
@@ -160,8 +157,8 @@ class FindingSession: ObservableObject {
         gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             
-            if let game = self.game {
-                if game.endGuessTime.timeIntervalSinceNow <= 0 {
+            if let endTime = self.endTime {
+                if endTime.timeIntervalSinceNow <= 0 {
                     self.gameDidEnd()
                 }
             }
@@ -170,7 +167,7 @@ class FindingSession: ObservableObject {
     
     func startGame() {
         let selector = people.randomElement()!
-        let newGame = Game(locationSelector: selector, endGuessTime: .now + 90)
+        let selectorMessage = SetLocationSelectorMessage(locationSelector: selector)
         
         if selector.id == me?.id {
             gameState = .selectLocationForOthers
@@ -178,12 +175,12 @@ class FindingSession: ObservableObject {
             gameState = .waitingForSelector
         }
         
-        game = newGame
+        self.selector = selector
         
         if let messenger = messenger {
             Task {
                 do {
-                    try await messenger.send(newGame)
+                    try await messenger.send(selectorMessage)
                 } catch {
                     
                 }
@@ -194,13 +191,13 @@ class FindingSession: ObservableObject {
     // this will ONLY be run by selectors
     func selectLocation(location: CLLocationCoordinate2D) {
         guard let me = me else { return }
-        let selectorLocation = SelectorLocation(location: location)
+        let selectMessage = SelectedLocationMessage(location: location, endGuessTime: .now + 90)
         gameState = .selectorWaitingForGuesses
         selectedLocation = location
         if let messenger = messenger {
             Task {
                 do {
-                    try await messenger.send(selectorLocation)
+                    try await messenger.send(selectMessage)
                 } catch {
                 }
             }
@@ -242,13 +239,13 @@ class FindingSession: ObservableObject {
     }
 }
 
-struct Game: Codable {
+struct SetLocationSelectorMessage: Codable {
     var locationSelector: Person
-    var endGuessTime: Date
 }
 
-struct SelectorLocation: Codable {
+struct SelectedLocationMessage: Codable {
     var location: CLLocationCoordinate2D
+    var endGuessTime: Date
 }
 
 struct Guess: Codable {
