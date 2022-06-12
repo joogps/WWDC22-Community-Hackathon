@@ -65,9 +65,15 @@ struct GuessingView: View {
                 }.frame(height: 95)
                 
                 ZStack {
-                    MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lineCoordinates: allGuessCoordinates).environmentObject(finding)
-                    .edgesIgnoringSafeArea(.all)
-                    
+                    if finding.gameState == .end {
+                        MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lines: true).environmentObject(finding)
+                            .edgesIgnoringSafeArea(.all)
+                            .offset(y: 0)
+                    }else {
+                        MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lines: false).environmentObject(finding)
+                            .edgesIgnoringSafeArea(.all)
+                            .offset(y: 0)
+                    }
                     VStack {
                         Spacer()
                         

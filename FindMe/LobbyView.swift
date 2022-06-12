@@ -74,7 +74,16 @@ struct InitialsView: View {
             .background(Circle().fill(Color.accentColor))
     }
 }
-
+struct InitialsViewTiny: View {
+    let initials: String
+    
+    var body: some View {
+        Text(initials)
+            .bold()
+            .padding(5)
+            .background(Circle().fill(Color.accentColor))
+    }
+}
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {
         LobbyView()

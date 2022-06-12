@@ -7,6 +7,45 @@
 
 import SwiftUI
 import MapKit
+import CoreLocation
+
+final class LocationAnnotationView: MKAnnotationView {
+
+    // MARK: Initialization
+
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+
+        frame = CGRect(x: 0, y: 0, width: 40, height: 50)
+        centerOffset = CGPoint(x: 0, y: -frame.size.height / 2)
+
+        canShowCallout = true
+        setupUI(initials: ((annotation?.title) ?? "DK")!)
+    }
+
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: Setup
+
+    private func setupUI(initials: String) {
+        backgroundColor = .clear
+
+        var vc = UIHostingController(rootView: InitialsViewTiny(initials: initials))
+        vc.view.backgroundColor = .clear
+        guard let view = vc.view else {
+            print("ERRORRRRRRRR")
+            return
+        }
+        addSubview(view)
+
+        view.frame = bounds
+    }
+}
+
+
 
 struct MapView: UIViewRepresentable {
     @Binding var centerCoordinate: CLLocationCoordinate2D
@@ -15,34 +54,42 @@ struct MapView: UIViewRepresentable {
     
     let mapView = MKMapView()
     
+    
     //poly lines
-    let lineCoordinates: [CLLocationCoordinate2D]
+    var lines: Bool
     
     func makeUIView(context: Context) -> MKMapView {
+        mapView.register(LocationAnnotationView.self, forAnnotationViewWithReuseIdentifier: "pinID")
         mapView.delegate = context.coordinator
-
-        let polyline = MKPolyline(coordinates: lineCoordinates, count: lineCoordinates.count)
-        mapView.addOverlay(polyline)
         
-
-        
-        
-
+        if lines {
+            
+            sleep(1)
+            let lineCoordinates = finding.guesses.map({ $0.location })
+            if finding.gameState == .end {
+                print("adding Lines \(lineCoordinates)")
+                for guessCoordinate in lineCoordinates {
+                    let polyline = MKPolyline(coordinates: [guessCoordinate, finding.selectedLocation!], count: 2)
+                    print("added a line")
+                    mapView.addOverlay(polyline)
+                }
+            }
+            
+            //add initials
+            for guess in finding.guesses {
+                let annotation = MKPointAnnotation()
+                annotation.title = guess.person.initials
+                annotation.coordinate = guess.location
+                self.mapView.addAnnotation(annotation)
+            }
+            
+            
+        }
 
         return mapView
     }
     
     func updateUIView(_ view: MKMapView, context: Context) {
-        
-        
-        if finding.gameState == .end {
-            print("adding Lines")
-            for guessCoordinate in lineCoordinates {
-                let polyline = MKPolyline(coordinates: [guessCoordinate, finding.selectedLocation!], count: 2)
-                mapView.addOverlay(polyline)
-            }
-        }
-        
         
     }
     
@@ -76,6 +123,7 @@ struct MapView: UIViewRepresentable {
             let coordinate = self.parent.mapView.convert(location, toCoordinateFrom: self.parent.mapView)
             
             annotation.coordinate = coordinate
+            annotation.title = self.parent.finding.me?.initials ?? "🤷‍♂️"
             self.parent.mapView.addAnnotation(annotation)
             self.placedPin(coordinate)
             
@@ -90,7 +138,11 @@ struct MapView: UIViewRepresentable {
           }
           return MKOverlayRenderer()
         }
-
+        
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            return mapView.dequeueReusableAnnotationView(withIdentifier: "pinID", for: annotation)
+        }
+        
     }
 }
 

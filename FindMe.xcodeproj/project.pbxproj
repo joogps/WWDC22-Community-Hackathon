@@ -12,6 +12,7 @@
 		27E43DAD2855D22800BA731F /* GuessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E43DAC2855D22800BA731F /* GuessingView.swift */; };
 		27E43DAF2855D23A00BA731F /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E43DAE2855D23A00BA731F /* LookAroundView.swift */; };
 		27E43DB12855DB6C00BA731F /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27E43DB02855DB6800BA731F /* SF-Pro.ttf */; };
+		9C20738B2855E64900F25EC2 /* FontBlaster in Frameworks */ = {isa = PBXBuildFile; productRef = 9C20738A2855E64900F25EC2 /* FontBlaster */; };
 		9C2E3AB22855CB07002B5239 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3A9E2855CB07002B5239 /* ContentView.swift */; };
 		9C2E3AB32855CB07002B5239 /* FindingGroupActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA02855CB07002B5239 /* FindingGroupActivity.swift */; };
 		9C2E3AB42855CB07002B5239 /* FindingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA12855CB07002B5239 /* FindingSession.swift */; };
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C20738B2855E64900F25EC2 /* FontBlaster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +166,7 @@
 			);
 			name = FindMe;
 			packageProductDependencies = (
+				9C20738A2855E64900F25EC2 /* FontBlaster */,
 			);
 			productName = FindMe;
 			productReference = 272952EB2855270200A095F9 /* FindMe.app */;
@@ -195,6 +198,7 @@
 			);
 			mainGroup = 272952E22855270200A095F9;
 			packageReferences = (
+				9C2073892855E64900F25EC2 /* XCRemoteSwiftPackageReference "FontBlaster" */,
 			);
 			productRefGroup = 272952EC2855270200A095F9 /* Products */;
 			projectDirPath = "";
@@ -369,7 +373,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FindMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TW2C8488Q9;
+				DEVELOPMENT_TEAM = CUA3BVMUR5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
@@ -385,7 +389,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.christian.FindMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryandu.FindMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -410,7 +414,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FindMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TW2C8488Q9;
+				DEVELOPMENT_TEAM = CUA3BVMUR5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
@@ -425,7 +429,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.christian.FindMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryandu.FindMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -460,6 +464,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9C2073892855E64900F25EC2 /* XCRemoteSwiftPackageReference "FontBlaster" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ArtSabintsev/FontBlaster.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9C20738A2855E64900F25EC2 /* FontBlaster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C2073892855E64900F25EC2 /* XCRemoteSwiftPackageReference "FontBlaster" */;
+			productName = FontBlaster;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 272952E32855270200A095F9 /* Project object */;
 }

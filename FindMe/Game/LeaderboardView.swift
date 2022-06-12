@@ -29,7 +29,7 @@ struct LeaderboardView: View {
     @State private var distance: Int?
     
     var body: some View {
-        MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lineCoordinates: allGuessCoordinates)
+        MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lines: true).environmentObject(finding)
             .ignoresSafeArea()
             .sheetWithDetents(isPresented: .constant(finding.gameState == .end),
                               detents: [.large(), .medium()],

@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "fontblaster",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ArtSabintsev/FontBlaster.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "09fffe9cf20293fce81ce7154b46f8e60291baa8"
+      }
+    }
+  ],
+  "version" : 2
+}
