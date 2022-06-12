@@ -11,12 +11,11 @@ struct ContentView: View {
     @EnvironmentObject var finding: FindingSession
     
     var body: some View {
-        GameView()
-        /* if let game = finding.game {
-            GameView()
-        } else {
+        if case .waitingForPlayers = finding.gameState {
             LobbyView()
-        } */
+        } else {
+            GameView()
+        }
     }
 }
 

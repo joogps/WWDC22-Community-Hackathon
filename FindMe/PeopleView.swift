@@ -31,7 +31,7 @@ struct PeopleView: View {
                     }.buttonStyle(ProminentButtonStyle())
                 } else {
                     Button("Start game") {
-                        
+                        finding.startGame()
                     }.buttonStyle(ProminentButtonStyle())
                 }
             }.padding(24)
