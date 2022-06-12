@@ -19,6 +19,7 @@ class FindingSession: ObservableObject {
     @Published var me: Person?
     @Published var game: Game?
     
+    
     var subscriptions = Set<AnyCancellable>()
     var tasks = Set<Task<(), Never>>()
     
@@ -114,6 +115,7 @@ struct Game: Codable {
     var finder: Person
     var location: CLLocationCoordinate2D?
     var guesses: [Guess] = []
+    var endGuessTime: Date = .now
 }
 
 struct Guess: Codable {
