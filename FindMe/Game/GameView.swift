@@ -33,18 +33,12 @@ struct GameView: View {
                         }
                     }
                 } else {
-                    Text("\(finding.selector?.name ?? "Someone") is selecting a place")
-                        .bold()
+                    WaitingTitle()
                 }
             case .guesserWaitingForOthers:
-                VStack {
-                    Text("Godd guess!")
-                        .font(.title2.bold())
-                    Text("\(finding.people.count-finding.guesses.count) players are yet to make theirs.")
-                }.padding()
+                GuessAccomplishment()
             case .waitingForSelector:
-                Text("\(finding.selector?.name ?? "Someone") is picking a place")
-                    .bold()
+                WaitingTitle()
             case .end:
                 Text("Done! guesses: \(finding.guesses.description)")
             case .waitingForPlayers:
@@ -55,6 +49,29 @@ struct GameView: View {
                 UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
             }
         }
+        .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
+    }
+}
+
+struct GuessAccomplishment: View {
+    @EnvironmentObject var finding: FindingSession
+    
+    var body: some View {
+        VStack {
+            Text("Godd guess!")
+                .font(.custom("SF Pro Expanded Heavy", size: 28, relativeTo: .title))
+            Text("\(finding.people.count-finding.guesses.count) players are yet to make theirs.")
+                .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
+        }.padding()
+    }
+}
+
+struct WaitingTitle: View {
+    @EnvironmentObject var finding: FindingSession
+    
+    var body: some View {
+        Text("\(finding.selector?.name ?? "Someone") is picking a place")
+            .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
     }
 }
 

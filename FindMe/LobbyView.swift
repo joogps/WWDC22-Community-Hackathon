@@ -13,7 +13,7 @@ struct LobbyView: View {
                                                   span: .init(latitudeDelta: 80.0, longitudeDelta: 80.0))
     @EnvironmentObject var finding: FindingSession
     
-    @State var showingNamePicker = true
+    @State var showingNamePicker = false
     @StateObject var locationManager = LocationManager()
     
     var body: some View {
@@ -33,11 +33,12 @@ struct LobbyView: View {
                             .opacity(0.5)
                         Text("FindMe")
                     }
+                    .font(.custom("SF Pro Expanded Heavy", size: 32, relativeTo: .largeTitle))
                     .padding(.vertical, 80)
                     .padding(.horizontal, 30)
                     Spacer()
                 }
-                .font(.largeTitle.bold())
+                //.font(.largeTitle.bold())
                 .background {
                     Rectangle()
                         .fill(.linearGradient(colors: [.black, .black.opacity(0.0)],
