@@ -13,30 +13,38 @@ struct GameView: View {
     var body: some View {
         ZStack {
             Color.accentColor.ignoresSafeArea()
-            if finding.game?.finder == finding.me {
-                if let location = finding.game?.location {
-                    Text("\(finding.game?.guesses.count ?? 0) guesses")
-                } else {
-                    VStack {
-                        Text("Pick a place")
-                        Button("Submit Golden Gate") {
-                            finding.game?.location = .init(latitude: 37.73536, longitude: -122.40709)
-                            finding.sendGame()
-                        }.buttonStyle(ProminentButtonStyle())
-                    }
+            switch finding.gameState {
+            case .selectLocationForOthers:
+                VStack {
+                    Text("Pick a place")
+                    Button("Submit Golden Gate") {
+                        finding.selectLocation(location: .init(latitude: 37.73536, longitude: -122.40709))
+                    }.buttonStyle(ProminentButtonStyle())
                 }
-            } else {
-                if let location = finding.game?.location {
+            case .selectorWaitingForGuesses:
+                Text("\(finding.guesses.count) guesses")
+            case .guessingLocation:
+                if let selectedLocation = finding.selectedLocation {
                     VStack {
                         Text("Find the place!")
-                        LookAroundView(coordinate: location) {
+                        LookAroundView(coordinate: selectedLocation) {
                             Text("Ryan's view")
                         }
                     }
-                } else if let picker = finding.game?.finder {
-                    Text("\(picker.name) is picking a place")
+                } else {
+                    Text("\(finding.selector?.name ?? "Someone") is selecting a place")
                         .bold()
                 }
+            case .guesserWaitingForOthers:
+                Text("\(finding.guesses.count) guesses")
+            case .waitingForSelector:
+                Text("Someone is picking a place")
+            case .timeLimitUp:
+                Text("Done! guesses: \(finding.guesses.description)")
+            
+            // This will only be in the lobby
+            case .waitingForPlayers:
+                EmptyView()
             }
         }
     }

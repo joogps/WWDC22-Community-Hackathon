@@ -31,13 +31,11 @@ struct PeopleView: View {
                     }.buttonStyle(ProminentButtonStyle())
                 } else {
                     Button("Start game") {
-                        let finder = finding.people.randomElement()!
-                        finding.game = Game(finder: finder)
-                        finding.sendGame()
+                        
                     }.buttonStyle(ProminentButtonStyle())
                 }
             }.padding(24)
-            .background(.white.opacity(0.05))
+                .background(.white.opacity(0.05))
             
             LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
                 ForEach(finding.people) { person in
@@ -48,7 +46,7 @@ struct PeopleView: View {
             
             Spacer()
         }
-            .animation(.spring(), value: finding.people)
+        .animation(.spring(), value: finding.people)
     }
 }
 

@@ -22,6 +22,7 @@
 		27F3877028556E9A003E9615 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876F28556E9A003E9615 /* LobbyView.swift */; };
 		27F3877228557579003E9615 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3877128557579003E9615 /* GameView.swift */; };
 		27F387742855A4AD003E9615 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F387732855A4AD003E9615 /* LocationManager.swift */; };
+		9C3B998A2855A8B500CEB2FE /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3B99892855A8B500CEB2FE /* LeaderboardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		27F3876F28556E9A003E9615 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 		27F3877128557579003E9615 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		27F387732855A4AD003E9615 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		9C3B99892855A8B500CEB2FE /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				27F3877128557579003E9615 /* GameView.swift */,
 				27F387732855A4AD003E9615 /* LocationManager.swift */,
 				27F387672855527C003E9615 /* LookAroundView.swift */,
+				9C3B99892855A8B500CEB2FE /* LeaderboardView.swift */,
 				27F3876928555CCE003E9615 /* SheetPresentation.swift */,
 				27F38764285540DD003E9615 /* Group Activity */,
 				272952F22855270400A095F9 /* Assets.xcassets */,
@@ -191,6 +194,7 @@
 				272952F12855270200A095F9 /* ContentView.swift in Sources */,
 				27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */,
 				27F3876128553E18003E9615 /* FindingGroupActivity.swift in Sources */,
+				9C3B998A2855A8B500CEB2FE /* LeaderboardView.swift in Sources */,
 				272952EF2855270200A095F9 /* FindMeApp.swift in Sources */,
 				27F3877228557579003E9615 /* GameView.swift in Sources */,
 				27F3877028556E9A003E9615 /* LobbyView.swift in Sources */,

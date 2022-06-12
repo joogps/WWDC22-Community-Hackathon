@@ -50,9 +50,63 @@ struct LookAroundView<Content: View>: View {
 }
 
 
+
+struct MapView: UIViewRepresentable {
+    @Binding var centerCoordinate: CLLocationCoordinate2D
+    @Binding var pinLocation: CLLocationCoordinate2D
+    
+    let mapView = MKMapView()
+    
+    func makeUIView(context: Context) -> MKMapView {
+        mapView.delegate = context.coordinator
+        return mapView
+    }
+    
+    func updateUIView(_ view: MKMapView, context: Context) {
+        //print(#function)
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self, placedPin: { location in
+            print(location)
+            self.pinLocation = location
+        })
+    }
+    
+    class Coordinator: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
+        var parent: MapView
+        
+        var gRecognizer = UITapGestureRecognizer()
+        var annotation = MKPointAnnotation()
+        let placedPin: ((CLLocationCoordinate2D)->())
+        
+        init(_ parent: MapView, placedPin: @escaping ((CLLocationCoordinate2D)->())) {
+            self.parent = parent
+            self.placedPin = placedPin
+            super.init()
+            self.gRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
+            self.gRecognizer.delegate = self
+            self.parent.mapView.addGestureRecognizer(gRecognizer)
+            
+        }
+        
+        @objc func tapHandler(_ gesture: UITapGestureRecognizer) {
+            // position on the screen, CGPoint
+            let location = gRecognizer.location(in: self.parent.mapView)
+            // position on the map, CLLocationCoordinate2D
+            let coordinate = self.parent.mapView.convert(location, toCoordinateFrom: self.parent.mapView)
+            
+            annotation.coordinate = coordinate
+            self.parent.mapView.addAnnotation(annotation)
+            self.placedPin(coordinate)
+            
+        }
+    }
+}
+
+
 struct MakeGuessView: View {
     @EnvironmentObject var finding: FindingSession
-    
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 37.334_900,
                                        longitude: -122.009_020),
@@ -60,6 +114,10 @@ struct MakeGuessView: View {
         longitudinalMeters: 750
     )
     @State var timeRemaining = 44.0
+    @State var pinLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334_900,
+                                                                            longitude: -122.009_020)
+    let justATimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -94,8 +152,10 @@ struct MakeGuessView: View {
                             //                    }
                             
                         }
-                        ZStack(alignment: .leading) {
+                        ZStack(alignment: .leading){
+                            
                             Rectangle().frame( height: 10).foregroundColor(.white)
+                            
                             Rectangle().frame(width: (self.timeRemaining / 90.0) * geo.size.width, height: 10).foregroundColor(.blue)
                         }
                         
@@ -106,28 +166,45 @@ struct MakeGuessView: View {
                 
                 
                 ZStack {
-                    Map(coordinateRegion: $region)
+                    MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation)
+                    
+                    
                         .edgesIgnoringSafeArea(.all)
                         .offset(y:-10)
+                    
                     VStack{
                         HStack(alignment: .top) {
                             Spacer()
-                            Text("\(Int(round(self.timeRemaining))) seconds remaining")
+                            if self.timeRemaining <= 0 {
+                                Text("Time's up")
+                            } else {
+                                Text("\(Int(round(self.timeRemaining))) seconds remaining")
+                            }
                         }
+                        Button("submit guess") {
+                            finding.makeGuess(location: pinLocation)
+                        }
+                        Spacer()
                     }
                 }
-                
             }
-            .task {
-                if let game = finding.game {
+            .onReceive(justATimer) { time in
+                /* if let game = finding.game {
                     self.timeRemaining = game.endGuessTime.timeIntervalSince1970 - Date().timeIntervalSince1970
                     print("timeRemaining: \(timeRemaining)")
-                }
+                } */
             }
+            .onChange(of: self.timeRemaining, perform: { idk in
+                if timeRemaining <= 0 {
+                    if finding.gameState == .guessingLocation {
+                        print("Times UP!")
+                        finding.makeGuess(location: pinLocation)
+                    }
+                }
+            })
         }
     }
 }
-
 struct LookAroundViewRepresentable: UIViewControllerRepresentable {
     let scene: MKLookAroundScene
     
