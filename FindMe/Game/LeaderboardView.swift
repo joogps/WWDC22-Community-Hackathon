@@ -34,12 +34,11 @@ struct LeaderboardView: View {
             .sheetWithDetents(isPresented: .constant(finding.gameState == .end),
                               detents: [.large(), .medium()],
                               onDismiss: {}) {
-                VStack {
+                VStack(spacing: 0) {
                     if let winner, let distance, let selector = finding.selector {
-                        Text("\(winner.name) won! They were \(distance)km from the location that \(selector.name) chose.")
+                        Text("\(winner.id == finding.me?.id ? "You" : winner.name) won! \(winner.id == finding.me?.id ? "You" : "They") were \(distance)km from the location that \(selector.name) chose.")
                             .multilineTextAlignment(.center)
-                            .font(.title)
-                            .bold()
+                            .font(.custom("SF Pro Expanded Bold", size: 24))
                             .frame(maxWidth: .infinity, alignment: .center)
                             .padding(24)
                             .background(.white.opacity(0.05))
@@ -58,10 +57,12 @@ struct LeaderboardView: View {
                     .chartXAxis(.visible)
                     .chartYAxis(.hidden)
                     .allowsHitTesting(false)
+                    .padding(.top, 12)
                     Button("Restart") {
+                        finding.gameState = .waitingForPlayers
                         finding.reset()
                     }.buttonStyle(ProminentButtonStyle())
-                        .padding(24)
+                        .padding(12)
                 }
                 .sheetStyle()
             }
