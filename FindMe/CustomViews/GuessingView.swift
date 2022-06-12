@@ -22,13 +22,7 @@ struct GuessingView: View {
                                                                             longitude: -122.009_020)
     
     //add line coordinates after everyone has guessed
-    @State private var lineCoordinates: [CLLocationCoordinate2D] = [
-        // Steve Jobs theatre
-        CLLocationCoordinate2D(latitude: 37.330828, longitude: -122.007495),
-        // Caffè Macs
-        CLLocationCoordinate2D(latitude: 37.336083, longitude: -122.007356),
-        // Apple wellness center
-        CLLocationCoordinate2D(latitude: 37.336901, longitude:  -122.012345)]
+    @State private var allGuessCoordinates: [CLLocationCoordinate2D] = []
     
     var body: some View {
             VStack {
@@ -64,9 +58,7 @@ struct GuessingView: View {
                     .offset(y: 10)
                 
                 ZStack {
-                    MapView(centerCoordinate: .constant(region.center),
-                            pinLocation: $pinLocation,
-                            lineCoordinates: lineCoordinates)
+                    MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lineCoordinates: allGuessCoordinates).environmentObject(finding)
                     .edgesIgnoringSafeArea(.all)
                     .offset(y: 0)
                     
@@ -74,7 +66,16 @@ struct GuessingView: View {
                         HStack(alignment: .top) {
                             Spacer()
                             TimelineView(.animation) { context in
-                                Text("\(round(finding.endDate!.timeIntervalSince1970-context.date.timeIntervalSince1970)) seconds remaining")
+                                if let secondsRemaining = finding.endDate!.timeIntervalSince1970-context.date.timeIntervalSince1970 {
+                                    if secondsRemaining > 0 {
+                                        Text("\(round(secondsRemaining)) seconds remaining")
+                                    } else {
+                                        Text("Time's Up!")
+                                            .onAppear{
+                                                finding.makeGuess(location: pinLocation)
+                                            }
+                                    }
+                                }
                             }
                         }
                         
@@ -86,18 +87,18 @@ struct GuessingView: View {
                     }
                 }
             }
-            /*.onChange(of: self.timeRemaining, perform: { idk in
-                if timeRemaining <= 0 {
-                    if finding.gameState == .guessingLocation {
-                        print("Times UP!")
-                        finding.makeGuess(location: pinLocation)
-                        // wait 3 seconds and hope everyones guess made it to the user!
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            //self.addResultLines()
-                        }
-                        finding.gameState = .end
-                    }
-                }
-            })*/
+//            .onChange(of: self.timeRemaining, perform: { idk in
+//                if timeRemaining <= 0 {
+//                    if finding.gameState == .guessingLocation {
+//                        print("Times UP!")
+//                        finding.makeGuess(location: pinLocation)
+//                         wait 3 seconds and hope everyones guess made it to the user!
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//                            self.addResultLines()
+//                        }
+//                        finding.gameState = .end
+//                    }
+//                }
+//            })
     }
 }
