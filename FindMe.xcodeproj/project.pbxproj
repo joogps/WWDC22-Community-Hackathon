@@ -11,7 +11,6 @@
 		272952F12855270200A095F9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272952F02855270200A095F9 /* ContentView.swift */; };
 		272952F32855270400A095F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 272952F22855270400A095F9 /* Assets.xcassets */; };
 		272952F62855270400A095F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 272952F52855270400A095F9 /* Preview Assets.xcassets */; };
-		27F3874B28553679003E9615 /* BackgroundClearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3874A28553679003E9615 /* BackgroundClearView.swift */; };
 		27F3874D285536D0003E9615 /* PeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3874C285536D0003E9615 /* PeopleView.swift */; };
 		27F3875428553A0E003E9615 /* FontBlaster in Frameworks */ = {isa = PBXBuildFile; productRef = 27F3875328553A0E003E9615 /* FontBlaster */; };
 		27F3876128553E18003E9615 /* FindingGroupActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876028553E18003E9615 /* FindingGroupActivity.swift */; };
@@ -19,6 +18,7 @@
 		27F387682855527C003E9615 /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F387672855527C003E9615 /* LookAroundView.swift */; };
 		27F3876A28555CCE003E9615 /* SheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876928555CCE003E9615 /* SheetPresentation.swift */; };
 		27F3876C285567A6003E9615 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876B285567A6003E9615 /* Color.swift */; };
+		27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,6 @@
 		272952F02855270200A095F9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		272952F22855270400A095F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		272952F52855270400A095F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		27F3874A28553679003E9615 /* BackgroundClearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundClearView.swift; sourceTree = "<group>"; };
 		27F3874C285536D0003E9615 /* PeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleView.swift; sourceTree = "<group>"; };
 		27F3875028553820003E9615 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		27F3876028553E18003E9615 /* FindingGroupActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindingGroupActivity.swift; sourceTree = "<group>"; };
@@ -36,6 +35,7 @@
 		27F387672855527C003E9615 /* LookAroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
 		27F3876928555CCE003E9615 /* SheetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentation.swift; sourceTree = "<group>"; };
 		27F3876B285567A6003E9615 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +77,6 @@
 				27F3876928555CCE003E9615 /* SheetPresentation.swift */,
 				27F3874C285536D0003E9615 /* PeopleView.swift */,
 				27F38764285540DD003E9615 /* Group Activity */,
-				27F3874A28553679003E9615 /* BackgroundClearView.swift */,
 				272952F22855270400A095F9 /* Assets.xcassets */,
 				272952F42855270400A095F9 /* Preview Content */,
 			);
@@ -98,6 +97,7 @@
 				27F3876028553E18003E9615 /* FindingGroupActivity.swift */,
 				27F38765285540ED003E9615 /* FindingSession.swift */,
 				27F3876B285567A6003E9615 /* Color.swift */,
+				27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */,
 			);
 			path = "Group Activity";
 			sourceTree = "<group>";
@@ -178,9 +178,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27F3874B28553679003E9615 /* BackgroundClearView.swift in Sources */,
 				27F387682855527C003E9615 /* LookAroundView.swift in Sources */,
 				272952F12855270200A095F9 /* ContentView.swift in Sources */,
+				27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */,
 				27F3876128553E18003E9615 /* FindingGroupActivity.swift in Sources */,
 				272952EF2855270200A095F9 /* FindMeApp.swift in Sources */,
 				27F38766285540ED003E9615 /* FindingSession.swift in Sources */,

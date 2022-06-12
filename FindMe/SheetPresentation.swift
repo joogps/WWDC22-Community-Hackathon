@@ -4,6 +4,7 @@ struct SheetPresentationForSwiftUI<Content>: UIViewRepresentable where Content: 
     
     @Binding var isPresented: Bool
     let onDismiss: (() -> Void)?
+    let presentOnTop: Bool
     let detents: [UISheetPresentationController.Detent]
     let content: Content
     
@@ -11,11 +12,13 @@ struct SheetPresentationForSwiftUI<Content>: UIViewRepresentable where Content: 
     init(
         _ isPresented: Binding<Bool>,
         onDismiss: (() -> Void)? = nil,
+        presentOnTop: Bool = false,
         detents: [UISheetPresentationController.Detent] = [.medium()],
         @ViewBuilder content: () -> Content
     ) {
         self._isPresented = isPresented
         self.onDismiss = onDismiss
+        self.presentOnTop = presentOnTop
         self.detents = detents
         self.content = content()
     }
@@ -68,11 +71,12 @@ struct SheetPresentationForSwiftUI<Content>: UIViewRepresentable where Content: 
         // We need the delegate to use the presentationControllerDidDismiss function
         viewController.presentationController?.delegate = context.coordinator
         
-        
         if var topController = uiView.window?.rootViewController {
-            /* while let presentedViewController = topController.presentedViewController {
-                topController = presentedViewController
-            } */
+            if presentOnTop {
+                while let presentedViewController = topController.presentedViewController {
+                    topController = presentedViewController
+                }
+            }
             
             if isPresented {
                 // Present the viewController
@@ -115,12 +119,17 @@ struct SheetPresentationForSwiftUI<Content>: UIViewRepresentable where Content: 
 struct sheetWithDetentsViewModifier<SwiftUIContent>: ViewModifier where SwiftUIContent: View {
     
     @Binding var isPresented: Bool
-    let onDismiss: (() -> Void)?
+    var onDismiss: (() -> Void)? = nil
     let detents: [UISheetPresentationController.Detent]
+    var presentOnTop: Bool = false
     let swiftUIContent: SwiftUIContent
     
-    init(isPresented: Binding<Bool>, detents: [UISheetPresentationController.Detent] = [.medium()] , onDismiss: (() -> Void)? = nil, content: () -> SwiftUIContent) {
+    init(isPresented: Binding<Bool>,
+         presentOnTop: Bool = false,
+         detents: [UISheetPresentationController.Detent] = [.medium()],
+onDismiss: (() -> Void)? = nil, content: () -> SwiftUIContent) {
         self._isPresented = isPresented
+        self.presentOnTop = presentOnTop
         self.onDismiss = onDismiss
         self.swiftUIContent = content()
         self.detents = detents
@@ -128,7 +137,10 @@ struct sheetWithDetentsViewModifier<SwiftUIContent>: ViewModifier where SwiftUIC
     
     func body(content: Content) -> some View {
         ZStack {
-            SheetPresentationForSwiftUI($isPresented,onDismiss: onDismiss, detents: detents) {
+            SheetPresentationForSwiftUI($isPresented,
+                                        onDismiss: onDismiss,
+                                        presentOnTop: presentOnTop,
+                                        detents: detents) {
                 swiftUIContent
             }.fixedSize()
             content
@@ -142,12 +154,14 @@ extension View {
     
     func sheetWithDetents<Content>(
         isPresented: Binding<Bool>,
+        presentOnTop: Bool = false,
         detents: [UISheetPresentationController.Detent],
-        onDismiss: (() -> Void)?,
+        onDismiss: (() -> Void)? = nil,
         content: @escaping () -> Content) -> some View where Content : View {
             modifier(
                 sheetWithDetentsViewModifier(
                     isPresented: isPresented,
+                    presentOnTop: presentOnTop,
                     detents: detents,
                     onDismiss: onDismiss,
                     content: content)

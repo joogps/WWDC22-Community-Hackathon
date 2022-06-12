@@ -38,23 +38,12 @@ struct ContentView: View {
                 Spacer()
             }
         }.ignoresSafeArea()
-            .sheetWithDetents(isPresented: .constant(true),
-                              detents: [.large(), .medium()],
-                              onDismiss: {}) {
+        .sheetWithDetents(isPresented: .constant(true),
+                          detents: [.large(), .medium()],
+                          onDismiss: {}) {
             PeopleView()
                 .sheetStyle()
                 .environmentObject(finding)
-        }
-    }
-}
-
-struct PersonView: View {
-    var body: some View {
-        ZStack {
-            Capsule().fill(.blue)
-            Label("Ryan Du", systemImage: "person.fill")
-                .bold()
-                .padding()
         }
     }
 }

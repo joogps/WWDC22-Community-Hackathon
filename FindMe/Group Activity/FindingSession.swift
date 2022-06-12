@@ -8,6 +8,7 @@
 import SwiftUI
 import GroupActivities
 import Combine
+import MapKit
 
 class FindingSession: ObservableObject {
     @Published var groupSession: GroupSession<FindingActivity>?
@@ -35,20 +36,25 @@ class FindingSession: ObservableObject {
             
             Task {
                 do {
-                    try await messenger.send(self.me, to: .all)
+                    try await messenger.send(self.me, to: .only(newParticipants))
                 } catch {
-                    
                 }
             }
-            
-            let personTask = Task.detached { [weak self] in
-                for await (message, _) in messenger.messages(of: Person.self) {
-                    await self?.handle(message)
-                }
-            }
-            self.tasks.insert(personTask)
-            
         }.store(in: &subscriptions)
+        
+        let personTask = Task.detached { [weak self] in
+            for await (message, _) in messenger.messages(of: Person.self) {
+                await self?.handle(message)
+            }
+        }
+        self.tasks.insert(personTask)
+        
+        let gameTask = Task.detached { [weak self] in
+            for await (message, _) in messenger.messages(of: Game.self) {
+                await self?.handle(message)
+            }
+        }
+        self.tasks.insert(gameTask)
         
         groupSession.join()
     }
@@ -56,14 +62,40 @@ class FindingSession: ObservableObject {
     func handle(_ message: Person) async {
         people.append(message)
     }
+    
+    func handle(_ message: Game) async {
+        self.game = message
+    }
+    
+    func startGame() {
+        let finder = people.randomElement()!
+        self.game = Game(finder: finder)
+        
+        if let messenger = messenger {
+            Task {
+                do {
+                    try await messenger.send(game)
+                } catch {
+                }
+            }
+        }
+    }
 }
 
-struct Game {
+struct Game: Codable {
     var finder: Person
+    var location: CLLocationCoordinate2D?
+    var guesses: [Guess] = []
+}
+
+struct Guess: Codable {
+    var location: CLLocationCoordinate2D
 }
 
 struct Person: Identifiable, Codable {
     let id: UUID
     var name: String = "Person"
-    var color: [Color] = [Color.blue, Color.yellow, Color.red, Color.green].randomElement()!
+    var color: Color = [Color.blue, Color.yellow, Color.red, Color.green].randomElement()!
 }
+
+

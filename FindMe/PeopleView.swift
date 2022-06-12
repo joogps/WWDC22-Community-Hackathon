@@ -46,13 +46,20 @@ struct PeopleView: View {
     }
 }
 
+struct PersonView: View {
+    var body: some View {
+        ZStack {
+            Capsule().fill(.blue)
+            Label("Ryan Du", systemImage: "person.fill")
+                .bold()
+                .padding()
+        }
+    }
+}
+
 extension View {
     func sheetStyle() -> some View {
-        BackgroundClearView()
-            .overlay {
-                Rectangle()
-                    .fill(Material.ultraThinMaterial)
-            }
+        Rectangle().fill(Material.ultraThinMaterial)
             .overlay {
                 self
             }
