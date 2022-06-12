@@ -175,7 +175,6 @@ class FindingSession: ObservableObject {
     
     // this will ONLY be run by selectors
     func selectLocation(location: CLLocationCoordinate2D) {
-        guard let me = me else { return }
         let selectMessage = SelectedLocationMessage(location: location, endGuessTime: .now + 90)
         gameState = .selectorWaitingForGuesses
         selectedLocation = location
