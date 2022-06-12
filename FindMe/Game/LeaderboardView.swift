@@ -14,7 +14,9 @@ struct LeaderboardView: View {
     var body: some View {
         Chart {
             ForEach(finding.guesses) { guess in
-                BarMark(y: .value(guess.person.name, calculateDistance(guess: guess.location, location: finding.location ?? .init(latitude: 0, longitude: 0))))
+                BarMark(
+                    x: .value("Name", guess.person.name),
+                    y: .value("Distance", calculateDistance(guess: guess.location, location: finding.location ?? .init(latitude: 0, longitude: 0))))
             }
         }
     }

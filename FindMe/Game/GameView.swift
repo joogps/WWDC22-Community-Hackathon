@@ -46,7 +46,8 @@ struct GameView: View {
                 Text("\(finding.selector?.name ?? "Someone") is picking a place")
                     .bold()
             case .end:
-                Text("Done! guesses: \(finding.guesses.description)")
+                LeaderboardView()
+                    .environmentObject(finding)
             case .waitingForPlayers:
                 EmptyView()
             }
