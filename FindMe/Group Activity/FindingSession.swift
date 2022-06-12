@@ -155,6 +155,7 @@ class FindingSession: ObservableObject {
     }
     
     func handle(_ message: SelectedLocationMessage) async {
+        print("selected location! ")
         if case .waitingForSelector = gameState {
             DispatchQueue.main.async {
                 self.selectedLocation = message.location
