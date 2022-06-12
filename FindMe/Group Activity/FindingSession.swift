@@ -96,6 +96,13 @@ class FindingSession: ObservableObject {
         }
         self.tasks.insert(gameTask)
         
+        let guessesTask = Task.detached { [weak self] in
+            for await (message, _) in messenger.messages(of: Guess.self) {
+                await self?.handle(message)
+            }
+        }
+        self.tasks.insert(guessesTask)
+        
         groupSession.join()
     }
     
@@ -169,6 +176,12 @@ class FindingSession: ObservableObject {
         }
     }
     
+    //TODO: call this function when needed
+    func resetGame() {
+        self.game = nil
+        self.allGuesses.removeAll()
+    }
+    
     func gameDidEnd() {
         gameTimer?.invalidate()
         people.append(contentsOf: peopleToAddNextRound)
@@ -211,8 +224,9 @@ struct Game: Codable {
     var endGuessTime: Date
 }
 
-struct Guess: Codable {
-    var personId: UUID
+struct Guess: Codable, Identifiable {
+    var id = UUID()
+    var personID: Person?
     var location: CLLocationCoordinate2D
 }
 
