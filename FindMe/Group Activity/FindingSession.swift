@@ -17,27 +17,34 @@ class FindingSession: ObservableObject {
     
     @Published var people: [Person] = []
     @Published var me: Person?
-    @Published var host: Person?
     @Published var game: Game?
     
     var subscriptions = Set<AnyCancellable>()
     var tasks = Set<Task<(), Never>>()
     
     func configureGroupSession(_ groupSession: GroupSession<FindingActivity>) async {
-        self.groupSession = groupSession
+        DispatchQueue.main.async {
+            self.groupSession = groupSession
+            self.me = Person(id: groupSession.localParticipant.id)
+            self.people.append(self.me!)
+        }
         
         let messenger = GroupSessionMessenger(session: groupSession)
         self.messenger = messenger
         
-        me = Person(id: groupSession.localParticipant.id)
-        
         groupSession.$activeParticipants.sink { activeParticipants in
             let newParticipants = activeParticipants.filter( { !Set(self.people.map( { $0.id } )).contains($0.id) } )
+            
+            DispatchQueue.main.async {
+                self.groupSession = groupSession
+                self.me = Person(id: groupSession.localParticipant.id)
+            }
             
             Task {
                 do {
                     try await messenger.send(self.me, to: .only(newParticipants))
                 } catch {
+                    
                 }
             }
         }.store(in: &subscriptions)
@@ -92,7 +99,7 @@ struct Guess: Codable {
     var location: CLLocationCoordinate2D
 }
 
-struct Person: Identifiable, Codable {
+struct Person: Identifiable, Codable, Equatable {
     let id: UUID
     var name: String = "Person"
     var color: Color = [Color.blue, Color.yellow, Color.red, Color.green].randomElement()!

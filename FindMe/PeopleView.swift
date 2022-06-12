@@ -16,7 +16,7 @@ struct PeopleView: View {
             HStack {
                 VStack {
                     Text("Players")
-                        .font(.system(size: 32, weight: .heavy, design: .default))
+                        .font(.system(size: 32, weight: .bold, design: .default))
                         .fixedSize()
                     
                     if finding.groupSession == nil {
@@ -29,11 +29,21 @@ struct PeopleView: View {
                                 }
                             }
                         }
+                    } else {
+                        if finding.game == nil {
+                            Button("Start game") {
+                                finding.startGame()
+                            }
+                        }
                     }
                 }
                 
                 Spacer()
             }
+            
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.accentColor)
+                .frame(height: 30)
             
             LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
                 ForEach(0..<6) { person in
@@ -49,7 +59,7 @@ struct PeopleView: View {
 struct PersonView: View {
     var body: some View {
         ZStack {
-            Capsule().fill(.blue)
+            Capsule().fill(Color.accentColor)
             Label("Ryan Du", systemImage: "person.fill")
                 .bold()
                 .padding()
