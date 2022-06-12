@@ -79,8 +79,8 @@ struct InitialsViewTiny: View {
     
     var body: some View {
         Text(initials)
-            .bold()
-            .padding(5)
+//            .bold()
+            .padding(2)
             .background(Circle().fill(Color.accentColor))
     }
 }

@@ -13,14 +13,18 @@ final class LocationAnnotationView: MKAnnotationView {
 
     // MARK: Initialization
 
-    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+    init(annotation: MKAnnotation?, reuseIdentifier: String?, initials: String) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
         frame = CGRect(x: 0, y: 0, width: 40, height: 50)
         centerOffset = CGPoint(x: 0, y: -frame.size.height / 2)
 
         canShowCallout = true
-        setupUI(initials: ((annotation?.title) ?? "DK")!)
+//        if let annotation = annotation {
+//            setupUI(initials: ((annotation.title) ?? "📌")!)
+//        }
+        setupUI(initials: initials)
+        
     }
 
     @available(*, unavailable)
@@ -33,7 +37,7 @@ final class LocationAnnotationView: MKAnnotationView {
     private func setupUI(initials: String) {
         backgroundColor = .clear
 
-        var vc = UIHostingController(rootView: InitialsViewTiny(initials: initials))
+        let vc = UIHostingController(rootView: InitialsViewTiny(initials: initials))
         vc.view.backgroundColor = .clear
         guard let view = vc.view else {
             print("ERRORRRRRRRR")
@@ -78,11 +82,17 @@ struct MapView: UIViewRepresentable {
             //add initials
             for guess in finding.guesses {
                 let annotation = MKPointAnnotation()
-                annotation.title = guess.person.initials
+//                annotation.title = guess.person.initials
                 annotation.coordinate = guess.location
                 self.mapView.addAnnotation(annotation)
             }
             
+            if let selectedLocation = finding.selectedLocation {
+                let annotation = MKPointAnnotation()
+//                annotation.title = "Selected Location"
+                annotation.coordinate = selectedLocation
+                self.mapView.addAnnotation(annotation)
+            }
             
         }
 
@@ -123,7 +133,7 @@ struct MapView: UIViewRepresentable {
             let coordinate = self.parent.mapView.convert(location, toCoordinateFrom: self.parent.mapView)
             
             annotation.coordinate = coordinate
-            annotation.title = self.parent.finding.me?.initials ?? "🤷‍♂️"
+//            annotation.title = self.parent.finding.me?.initials ?? "🤷‍♂️"
             self.parent.mapView.addAnnotation(annotation)
             self.placedPin(coordinate)
             
@@ -140,7 +150,20 @@ struct MapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            return mapView.dequeueReusableAnnotationView(withIdentifier: "pinID", for: annotation)
+            print("ANNOTATION")
+            print(annotation)
+            print("an coordinate")
+            print(annotation.coordinate)
+            print("guesses coordinates")
+            print(self.parent.finding.guesses.map({$0.location}))
+            var initials = self.parent.finding.guesses.first(where: { $0.location == annotation.coordinate })?.person.initials
+            if initials == nil {
+                if annotation.coordinate == self.parent.finding.selectedLocation {
+                    initials = "⭐"
+                }
+            }
+            let customAnnotation = LocationAnnotationView(annotation: annotation, reuseIdentifier: "pinId", initials: initials ?? "📌" )
+            return customAnnotation
         }
         
     }

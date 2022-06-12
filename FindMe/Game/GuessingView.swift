@@ -49,7 +49,7 @@ struct GuessingView: View {
                             Text("\(finding.guesses.count)/\(finding.people.count-1)")
                                 .padding(.horizontal, 2)
                             
-                            InitialsView(initials: finding.me?.initials ?? "You")
+                            InitialsViewTiny(initials: finding.me?.initials ?? "You")
                         }
                         .offset(y: 10)
                         .padding()
