@@ -115,18 +115,25 @@ class FindingSession: ObservableObject {
     func handle(_ message: Game) async {
         game = message
         
-        if message.locationSelector.id == me?.id && message.location == nil {
-            gameState = .selectLocationForOthers
+        if message.location == nil {
+            if message.locationSelector.id == me?.id {
+                gameState = .selectLocationForOthers
+            } else {
+                gameState = .waitingForSelector
+            }
         } else {
-            gameState = .waitingForSelector
+            if message.locationSelector.id == me?.id {
+                gameState = .selectorWaitingForGuesses
+            } else {
+                gameState = .guessingLocation
+            }
+            
+            startGameTimer()
         }
-        
-        startGameTimer()
     }
     
     func handle(_ guess: Guess) async {
         guesses.append(guess)
-        gameState = .waitingForOthersToGuess
         if guesses.count == people.count {
             gameDidEnd()
         }
@@ -138,26 +145,26 @@ class FindingSession: ObservableObject {
         gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             
-            switch self.gameState {
-            case .selectingLocation, .waitingForOthersToGuess:
-                if let game = self.game {
-                    if game.endGuessTime.timeIntervalSinceNow <= 0 {
-                        self.gameDidEnd()
-                    }
+            if let game = self.game {
+                if game.endGuessTime.timeIntervalSinceNow <= 0 {
+                    self.gameDidEnd()
                 }
-            default:
-                // this shouldnt run but like if it does then itll just make the game end
-                self.gameDidEnd()
             }
         }
     }
     
     func startGame() {
-        let finder = people.randomElement()!
-        let newGame = Game(finder: finder, endGuessTime: .now + 90)
-        gameState = .selectingLocation
+        let selector = people.randomElement()!
+        let newGame = Game(locationSelector: selector, endGuessTime: .now + 90)
+        
+        if selector.id == me?.id {
+            gameState = .selectLocationForOthers
+        } else {
+            gameState = .waitingForSelector
+        }
+        
         game = newGame
-        startGameTimer()
+        
         if let messenger = messenger {
             Task {
                 do {
@@ -169,18 +176,17 @@ class FindingSession: ObservableObject {
         }
     }
     
-    func gameDidEnd() {
-        gameTimer?.invalidate()
-        people.append(contentsOf: peopleToAddNextRound)
-        gameState = .timeLimitUp
+    // this will ONLY be run by selectors
+    func selectLocation(location: CLLocationCoordinate2D) {
+        guard let me = me else { return }
+        let gameWithLocation = Game(locationSelector: me, location: location, endGuessTime: <#T##Date?#>)
     }
     
-    
-    
+    // this will ONLY be run by guessers
     func makeGuess(location: CLLocationCoordinate2D) {
         guard let me = me else { return }
         let guess = Guess(personId: me.id, location: location)
-        gameState = .waitingForOthersToGuess
+        gameState = .guesserWaitingForOthers
         if let messenger = messenger {
             Task {
                 do {
@@ -189,6 +195,12 @@ class FindingSession: ObservableObject {
                 }
             }
         }
+    }
+    
+    func gameDidEnd() {
+        gameTimer?.invalidate()
+        people.append(contentsOf: peopleToAddNextRound)
+        gameState = .timeLimitUp
     }
     
     func leaveSession() {
@@ -208,7 +220,7 @@ class FindingSession: ObservableObject {
 struct Game: Codable {
     var locationSelector: Person
     var location: CLLocationCoordinate2D?
-    var endGuessTime: Date
+    var endGuessTime: Date?
 }
 
 struct Guess: Codable {
