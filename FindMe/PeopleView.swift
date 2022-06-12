@@ -13,44 +13,40 @@ struct PeopleView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                VStack {
-                    Text("Players")
-                        .font(.system(size: 32, weight: .bold, design: .default))
-                        .fixedSize()
-                    
-                    if finding.groupSession == nil {
-                        Button("Start") {
-                            Task {
-                                do {
-                                    let _ = try await FindingActivity().activate()
-                                } catch {
-                                    
-                                }
-                            }
-                        }.buttonStyle(ProminentButtonStyle())
-                    } else {
-                        if finding.game == nil {
-                            Button("Start game") {
-//                                let finder = finding.people.randomElement()!
-//                                finding.game = Game(finder: finder)
-//                                finding.sendGame()
-                            }.buttonStyle(ProminentButtonStyle())
-                        }
-                    }
-                }
-                
+            HStack(spacing: 16) {
+                Text("People")
+                    .font(.title.bold())
+                    .fixedSize()
                 Spacer()
-            }
+                
+                if finding.groupSession == nil {
+                    Button("SharePlay") {
+                        Task {
+                            do {
+                                let _ = try await FindingActivity().activate()
+                            } catch {
+                                
+                            }
+                        }
+                    }.buttonStyle(ProminentButtonStyle())
+                } else {
+                    Button("Start game") {
+                        finding.startGame()
+                    }.buttonStyle(ProminentButtonStyle())
+                }
+            }.padding(24)
+                .background(.white.opacity(0.05))
             
             LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
                 ForEach(finding.people) { person in
                     PersonView(person: person)
+                        .transition(.scale)
                 }
-            }
+            }.padding(24)
             
             Spacer()
-        }.padding(32)
+        }
+        .animation(.spring(), value: finding.people)
     }
 }
 
@@ -59,8 +55,11 @@ struct PersonView: View {
     
     var body: some View {
         ZStack {
-            Capsule().fill(Color.accentColor)
-            Label(person.name, systemImage: "person.fill")
+            Capsule().fill(.white)
+            Text(person.name)
+                .foregroundColor(.accentColor)
+                .allowsTightening(true)
+                .minimumScaleFactor(0.5)
                 .bold()
                 .padding()
         }
@@ -116,10 +115,15 @@ public struct ProminentButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color.accentColor.shadow(.inner(color: .white.opacity(0.25), radius: 3, y: 3)))
-                .frame(height: 60)
+                .fill(Color.accentColor.shadow(.inner(color: .white.opacity(0.25), radius: 4, y: 2)))
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(.clear.shadow(.inner(color: .accentColor.opacity(1.0), radius: 4, y: -4)))
+                .saturation(50.0)
+                .brightness(50.0)
             configuration.label
-                .font(.headline.bold())
+                .font(.title2.bold())
+                .shadow(radius: 0, y: -1)
         }.elastic(active: configuration.isPressed)
+            .frame(height: 60)
     }
 }

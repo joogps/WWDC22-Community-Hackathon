@@ -8,7 +8,11 @@
 import SwiftUI
 import MapKit
 
-extension CLLocationCoordinate2D: Codable {
+extension CLLocationCoordinate2D: Codable, Equatable {
+    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        lhs.longitude == rhs.longitude && lhs.latitude == rhs.latitude
+    }
+    
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         try container.encode(longitude)

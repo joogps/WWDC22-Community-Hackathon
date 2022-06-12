@@ -32,8 +32,8 @@ struct GameView: View {
                         }
                     }
                 } else {
-                    // This shouldnt show but anyways
-                    Text("Someone is picking a place")
+                    Text("\(finding.selector?.name ?? "Someone") is selecting a place")
+                        .bold()
                 }
             case .guesserWaitingForOthers:
                 Text("\(finding.guesses.count) guesses")

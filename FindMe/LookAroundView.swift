@@ -213,13 +213,13 @@ struct MakeGuessView: View {
                         Spacer()
                     }
                 }
-                
             }
             .onReceive(justATimer) { time in
-                if let game = finding.game {
-                    self.timeRemaining = game.endGuessTime.timeIntervalSince1970 - Date().timeIntervalSince1970
+                if let endTime = finding.endTime {
+                    self.timeRemaining = endTime.timeIntervalSinceNow
                     print("timeRemaining: \(timeRemaining)")
                 }
+                
             }
             .onChange(of: self.timeRemaining, perform: { idk in
                 if timeRemaining <= 0 {
@@ -230,6 +230,7 @@ struct MakeGuessView: View {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             self.addResultLines()
                         }
+                        finding.gameState = .timeLimitUp
                     }
                 }
             })
