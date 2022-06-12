@@ -142,6 +142,8 @@ class FindingSession: ObservableObject {
     
     func handle(_ message: SetLocationSelectorMessage) async {
         DispatchQueue.main.async {
+            self.reset(sendMessage: false)
+            
             self.selector = message.locationSelector
             
             if message.locationSelector.id == self.me?.id {
@@ -179,12 +181,12 @@ class FindingSession: ObservableObject {
     
     func handle(_ message: RestartMessage) async {
         DispatchQueue.main.async {
+            self.gameState = .waitingForPlayers
             self.reset()
         }
     }
     
-    func reset() {
-        self.gameState = .waitingForPlayers
+    func reset(sendMessage: Bool = true) {
         self.selector = nil
         for person in peopleToAddNextRound {
             if !people.contains(where: { $0.id == person.id }) {
@@ -196,9 +198,21 @@ class FindingSession: ObservableObject {
         self.selectedLocation = nil
         self.startDate = nil
         self.endDate = nil
+        
+        if let messenger = messenger, sendMessage {
+            Task {
+                do {
+                    try await messenger.send(RestartMessage())
+                } catch {
+                    
+                }
+            }
+        }
     }
     
     func startGame() {
+        reset(sendMessage: false)
+        
         let selector = people.first!
         let selectorMessage = SetLocationSelectorMessage(locationSelector: selector)
         
