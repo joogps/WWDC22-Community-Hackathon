@@ -11,7 +11,7 @@
 		272952F62855270400A095F9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 272952F52855270400A095F9 /* Preview Assets.xcassets */; };
 		27E43DAD2855D22800BA731F /* GuessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E43DAC2855D22800BA731F /* GuessingView.swift */; };
 		27E43DAF2855D23A00BA731F /* LookAroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E43DAE2855D23A00BA731F /* LookAroundView.swift */; };
-		27F3875428553A0E003E9615 /* FontBlaster in Frameworks */ = {isa = PBXBuildFile; productRef = 27F3875328553A0E003E9615 /* FontBlaster */; };
+		27E43DB12855DB6C00BA731F /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 27E43DB02855DB6800BA731F /* SF-Pro.ttf */; };
 		9C2E3AB22855CB07002B5239 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3A9E2855CB07002B5239 /* ContentView.swift */; };
 		9C2E3AB32855CB07002B5239 /* FindingGroupActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA02855CB07002B5239 /* FindingGroupActivity.swift */; };
 		9C2E3AB42855CB07002B5239 /* FindingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E3AA12855CB07002B5239 /* FindingSession.swift */; };
@@ -33,6 +33,7 @@
 		272952F52855270400A095F9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		27E43DAC2855D22800BA731F /* GuessingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuessingView.swift; sourceTree = "<group>"; };
 		27E43DAE2855D23A00BA731F /* LookAroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookAroundView.swift; sourceTree = "<group>"; };
+		27E43DB02855DB6800BA731F /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		27F3875028553820003E9615 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		27F3876228553EB7003E9615 /* FindMe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FindMe.entitlements; sourceTree = "<group>"; };
 		9C2E3A9B2855CB06002B5239 /* FindMe-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FindMe-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -56,7 +57,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27F3875428553A0E003E9615 /* FontBlaster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +89,7 @@
 				9C2E3A9E2855CB07002B5239 /* ContentView.swift */,
 				9C2E3AA62855CB07002B5239 /* LobbyView.swift */,
 				9C2E3AAA2855CB07002B5239 /* PeopleView.swift */,
+				27E43DB02855DB6800BA731F /* SF-Pro.ttf */,
 				9C2E3AA72855CB07002B5239 /* Game */,
 				9C2E3AAD2855CB07002B5239 /* CustomViews */,
 				9C2E3AA32855CB07002B5239 /* Conform */,
@@ -163,7 +164,6 @@
 			);
 			name = FindMe;
 			packageProductDependencies = (
-				27F3875328553A0E003E9615 /* FontBlaster */,
 			);
 			productName = FindMe;
 			productReference = 272952EB2855270200A095F9 /* FindMe.app */;
@@ -195,7 +195,6 @@
 			);
 			mainGroup = 272952E22855270200A095F9;
 			packageReferences = (
-				27F3875228553A0D003E9615 /* XCRemoteSwiftPackageReference "FontBlaster" */,
 			);
 			productRefGroup = 272952EC2855270200A095F9 /* Products */;
 			projectDirPath = "";
@@ -212,6 +211,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				272952F62855270400A095F9 /* Preview Assets.xcassets in Resources */,
+				27E43DB12855DB6C00BA731F /* SF-Pro.ttf in Resources */,
 				272952F32855270400A095F9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,25 +460,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		27F3875228553A0D003E9615 /* XCRemoteSwiftPackageReference "FontBlaster" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ArtSabintsev/FontBlaster";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		27F3875328553A0E003E9615 /* FontBlaster */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 27F3875228553A0D003E9615 /* XCRemoteSwiftPackageReference "FontBlaster" */;
-			productName = FontBlaster;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 272952E32855270200A095F9 /* Project object */;
 }

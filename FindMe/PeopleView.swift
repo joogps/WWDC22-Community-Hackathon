@@ -15,6 +15,7 @@ struct PeopleView: View {
         VStack {
             HStack(spacing: 16) {
                 Text("Players")
+                    .font(.custom("SF Pro Expanded Heavy", size: 28, relativeTo: .title))
                     .font(.title.bold())
                     .fixedSize()
                 Spacer()
@@ -49,7 +50,9 @@ struct PeopleView: View {
             VStack {
                 Image(systemName: "figure.walk")
                     .font(.system(size: 64))
+                    .padding()
                 Text("waiting for other players")
+                    .bold()
             }.foregroundStyle(.tertiary)
             
             Spacer()
@@ -139,11 +142,12 @@ public struct ProminentButtonStyle: ButtonStyle {
                     .fill(.clear.shadow(.inner(color: .accentColor.opacity(1.0), radius: 4, y: -4)))
                     .saturation(50.0)
                     .brightness(50.0)
+                
                 configuration.label
-                    .font(.title2.bold())
-                    .shadow(radius: 0, y: -1)
+                    .font(.title2.weight(.heavy))
+                    .shadow(radius: 0, y: -2)
             }.grayscale(isEnabled ? 0 : 1)
-            .frame(height: 60)
+            .frame(height: 50)
             .elastic(active: configuration.isPressed)
         }
     }
