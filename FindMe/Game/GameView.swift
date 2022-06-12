@@ -20,15 +20,15 @@ struct GameView: View {
                     Button("Submit Golden Gate") {
                         finding.selectLocation(location: .init(latitude: 37.73536, longitude: -122.40709))
                     }.buttonStyle(ProminentButtonStyle())
-                }
+                }.padding()
             case .selectorWaitingForGuesses:
-                Text("\(finding.guesses.count) guesses")
+                Text("\(finding.guesses.count) guesses have already been made.")
             case .guessingLocation:
                 if let selectedLocation = finding.selectedLocation {
                     VStack {
                         Text("Find the place!")
                         LookAroundView(coordinate: selectedLocation) {
-                            MakeGuessView()
+                            GuessingView()
                         }
                     }
                 } else {
@@ -36,13 +36,16 @@ struct GameView: View {
                         .bold()
                 }
             case .guesserWaitingForOthers:
-                Text("\(finding.guesses.count) guesses")
+                VStack {
+                    Text("Godd guess!")
+                        .font(.title2.bold())
+                    Text("\(finding.people.count-finding.guesses.count) players are yet to make theirs.")
+                }.padding()
             case .waitingForSelector:
-                Text("Someone is picking a place")
+                Text("\(finding.selector?.name ?? "Someone") is picking a place")
+                    .bold()
             case .timeLimitUp:
                 Text("Done! guesses: \(finding.guesses.description)")
-            
-            // This will only be in the lobby
             case .waitingForPlayers:
                 EmptyView()
             }
