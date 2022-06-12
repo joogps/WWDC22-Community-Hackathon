@@ -73,6 +73,7 @@ struct SheetPresentationForSwiftUI<Content>: UIViewRepresentable where Content: 
         
         if var topController = uiView.window?.rootViewController {
             if presentOnTop {
+                print("Presenting on top.")
                 while let presentedViewController = topController.presentedViewController {
                     topController = presentedViewController
                 }

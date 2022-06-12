@@ -13,21 +13,19 @@ struct LookAroundView<Content: View>: View {
     
     @State var lookAroundScene: MKLookAroundScene?
     @State var presenting = false
-    @EnvironmentObject var finding: FindingSession
     
     var content: () -> (Content)
     
     var body: some View {
         HStack {
             if let lookAroundScene {
-                
                 LookAroundViewRepresentable(scene: lookAroundScene)
                     .frame(height: 200)
                     .cornerRadius(24)
                     .padding(20)
                     .onTapGesture {
                         DispatchQueue.main.async {
-                            presenting.toggle()
+                            presenting = true
                         }
                     }.sheetWithDetents(isPresented: $presenting,
                                        presentOnTop: true,
@@ -38,6 +36,8 @@ struct LookAroundView<Content: View>: View {
                             .sheetStyle()
                     })
             }
+        }.onChange(of: presenting) { presenting in
+            print(true)
         }.task {
             let sceneRequest = MKLookAroundSceneRequest(coordinate: coordinate)
             do {
@@ -46,18 +46,13 @@ struct LookAroundView<Content: View>: View {
                 
             }
         }
-        .onAppear{
-            presenting.toggle()
-        }
-        .sheet(isPresented: $presenting, content: {
-            MakeGuessView()
-        })
     }
 }
 
 
 struct MakeGuessView: View {
     @EnvironmentObject var finding: FindingSession
+    
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 37.334_900,
                                        longitude: -122.009_020),
@@ -99,10 +94,8 @@ struct MakeGuessView: View {
                             //                    }
                             
                         }
-                        ZStack(alignment: .leading){
-                            
+                        ZStack(alignment: .leading) {
                             Rectangle().frame( height: 10).foregroundColor(.white)
-                            
                             Rectangle().frame(width: (self.timeRemaining / 90.0) * geo.size.width, height: 10).foregroundColor(.blue)
                         }
                         
