@@ -13,33 +13,38 @@ struct GameView: View {
     var body: some View {
         ZStack {
             Color.accentColor.ignoresSafeArea()
-            switch finding.gameState {
-            case .selectLocationForOthers:
-                SelectView()
-            case .selectorWaitingForGuesses:
-                Text("\(finding.guesses.count) guesses have already been made.")
-            case .guessingLocation:
-                if let selectedLocation = finding.selectedLocation {
-                    VStack {
-                        Text("Find the place!")
-                        LookAroundView(coordinate: selectedLocation) {
-                            GuessingView()
-                                .environmentObject(finding)
+            Group {
+                switch finding.gameState {
+                case .selectLocationForOthers:
+                    SelectView()
+                case .selectorWaitingForGuesses:
+                    Text("\(finding.guesses.count) guesses have already been made.")
+                case .guessingLocation:
+                    if let selectedLocation = finding.selectedLocation {
+                        VStack {
+                            Text("Find the place!")
+                            LookAroundView(coordinate: selectedLocation) {
+                                GuessingView()
+                                    .environmentObject(finding)
+                            }
                         }
+                    } else {
+                        WaitingTitle()
                     }
-                } else {
+                case .guesserWaitingForOthers:
+                    GuessAccomplishment()
+                case .waitingForSelector:
                     WaitingTitle()
+                case .end:
+                    LeaderboardView()
+                        .environmentObject(finding)
+                case .waitingForPlayers:
+                    EmptyView()
                 }
-            case .guesserWaitingForOthers:
-                GuessAccomplishment()
-            case .waitingForSelector:
-                WaitingTitle()
-            case .end:
-                LeaderboardView()
-                    .environmentObject(finding)
-            case .waitingForPlayers:
-                EmptyView()
             }
+            .transition(.move(edge: .bottom).combined(with: .opacity))
+            .zIndex(1)
+            .animation(.spring(), value: finding.gameState)
         }.onChange(of: finding.gameState) { state in
             if state != .guessingLocation {
                 UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)

@@ -13,7 +13,7 @@ struct LobbyView: View {
                                                   span: .init(latitudeDelta: 80.0, longitudeDelta: 80.0))
     @EnvironmentObject var finding: FindingSession
     
-    @State var showingNamePicker = false
+    @State var showingNamePicker = true
     @StateObject var locationManager = LocationManager()
     
     var body: some View {
@@ -60,6 +60,15 @@ struct LobbyView: View {
               TextField("Name", text: $finding.name)
           }.onChange(of: locationManager.lastLocation) { location in
               finding.location = location?.coordinate
+          }
+          .onChange(of: showingNamePicker) { _ in
+              if showingNamePicker == false {
+                  Task {
+                      for await session in FindingActivity.sessions() {
+                          await finding.configureGroupSession(session)
+                      }
+                  }
+              }
           }
     }
 }

@@ -48,7 +48,7 @@ class FindingSession: ObservableObject {
     @Published var startDate: Date?
     @Published var endDate: Date?
     
-    @AppStorage("name") var name = "Person"
+    @Published var name = "Person"
     @Published var location: CLLocationCoordinate2D?
     @Published var gameState: GameState = .waitingForPlayers
     

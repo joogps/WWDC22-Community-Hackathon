@@ -17,11 +17,6 @@ struct FindMeApp: App {
             ContentView()
                 .environmentObject(finding)
                 .preferredColorScheme(.dark)
-                .task {
-                    for await session in FindingActivity.sessions() {
-                        await finding.configureGroupSession(session)
-                    }
-                }
         }
     }
 }

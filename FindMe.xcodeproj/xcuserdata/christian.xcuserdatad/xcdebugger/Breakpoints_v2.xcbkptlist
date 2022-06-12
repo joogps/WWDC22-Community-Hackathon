@@ -3,4 +3,54 @@
    uuid = "11AB2774-9752-48C2-9395-781D21E0DA75"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "97509941-E1ED-4686-B9F4-0A338DDD322C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "FindMe/Game/LeaderboardView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "97509941-E1ED-4686-B9F4-0A338DDD322C - cb9ab135b02c26b5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 () -&gt; () in FindMe.LeaderboardView.body.getter : some"
+                  moduleName = "FindMe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/christian/Documents/WWDC22-Community-Hackathon/FindMe/Game/LeaderboardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "1836">
+               </Location>
+               <Location
+                  uuid = "97509941-E1ED-4686-B9F4-0A338DDD322C - be286cd6969ab94d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (FindMe.GuessMessage, FindMe.GuessMessage) -&gt; Swift.Bool in closure #3 () -&gt; () in FindMe.LeaderboardView.body.getter : some"
+                  moduleName = "FindMe"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/christian/Documents/WWDC22-Community-Hackathon/FindMe/Game/LeaderboardView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "81"
+                  endingLineNumber = "81"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
