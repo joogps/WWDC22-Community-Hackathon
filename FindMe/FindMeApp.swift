@@ -19,7 +19,6 @@ struct FindMeApp: App {
                 .preferredColorScheme(.dark)
                 .task {
                     for await session in FindingActivity.sessions() {
-                        print("JOINED")
                         await finding.configureGroupSession(session)
                     }
                 }
