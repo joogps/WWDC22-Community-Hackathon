@@ -197,11 +197,13 @@ class FindingSession: ObservableObject {
         guard let me = me else { return }
         let guess = Guess(personId: me.id, location: location)
         gameState = .guesserWaitingForOthers
+        
         if let messenger = messenger {
             Task {
                 do {
                     try await messenger.send(guess)
                 } catch {
+                    
                 }
             }
         }
