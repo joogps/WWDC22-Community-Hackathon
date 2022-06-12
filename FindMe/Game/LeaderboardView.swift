@@ -28,9 +28,11 @@ struct LeaderboardView: View {
     @State private var winner: Person?
     @State private var distance: Int?
     
+    @State private var showSheet = false
+    
     var body: some View {
         MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lines: true).environmentObject(finding)
-            .ignoresSafeArea()
+            .edgesIgnoringSafeArea(.all)
             .sheetWithDetents(isPresented: .constant(finding.gameState == .end),
                               detents: [.large(), .medium()],
                               onDismiss: {}) {
@@ -57,12 +59,13 @@ struct LeaderboardView: View {
                     .chartXAxis(.visible)
                     .chartYAxis(.hidden)
                     .allowsHitTesting(false)
-                    .padding(.top, 12)
+                    .padding(.top, 24)
                     Button("Restart") {
                         finding.gameState = .waitingForPlayers
                         finding.reset()
                     }.buttonStyle(ProminentButtonStyle())
-                        .padding(12)
+                        .padding(24)
+                        .padding(.bottom, 12)
                 }
                 .sheetStyle()
             }
@@ -81,7 +84,7 @@ struct LeaderboardView: View {
                     }
                 }
                 
-                
+                finding.gameState = .end
             }
     }
     

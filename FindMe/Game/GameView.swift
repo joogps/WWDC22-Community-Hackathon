@@ -15,12 +15,7 @@ struct GameView: View {
             Color.accentColor.ignoresSafeArea()
             switch finding.gameState {
             case .selectLocationForOthers:
-                VStack {
-                    Text("Pick a place")
-                    Button("Submit Golden Gate") {
-                        finding.selectLocation(location: .init(latitude: 37.33044, longitude: -121.89355))
-                    }.buttonStyle(ProminentButtonStyle())
-                }.padding()
+                SelectView()
             case .selectorWaitingForGuesses:
                 Text("\(finding.guesses.count) guesses have already been made.")
             case .guessingLocation:
