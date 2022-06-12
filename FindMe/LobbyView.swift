@@ -43,6 +43,7 @@ struct LobbyView: View {
                         .fill(.linearGradient(colors: [.black, .black.opacity(0.0)],
                                               startPoint: .top,
                                               endPoint: .bottom))
+                        .allowsHitTesting(false)
                 }
                 Spacer()
             }

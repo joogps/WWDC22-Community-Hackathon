@@ -33,72 +33,54 @@ struct GuessingView: View {
                         .frame(height: 120)
                     
                     VStack{
+                        Spacer()
                         HStack {
-                            Text("Make Your Guess")
-                                .font(.title2.bold())
-                                .padding(.horizontal)
+                            VStack(alignment: .leading) {
+                                Text("Make Your Guess")
+                                    .font(.title2.bold())
+                                
+                                TimelineView(.animation) { context in
+                                    Text("\(Int(finding.endDate!.timeIntervalSince1970-context.date.timeIntervalSince1970)) seconds remaining")
+                                        .font(.callout)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }.padding(.horizontal)
                             Spacer()
                             Text("\(finding.guesses.count)/\(finding.people.count-1)")
-                                .font(.system(size: 16, weight: .light))
-                                .padding(.horizontal)
+                                .padding(.horizontal, 2)
                             
                             InitialsView(initials: finding.me?.initials ?? "You")
                         }
+                        .offset(y: 10)
                         .padding()
-                        
+                        Spacer()
                         TimelineView(.animation) { context in
                             ZStack(alignment: .leading) {
                                 Rectangle().fill(.white)
-                                Rectangle().fill(.blue)
-                                    .scaleEffect(x: (context.date.timeIntervalSince1970-finding.startDate!.timeIntervalSince1970)/(finding.endDate!.timeIntervalSince1970-finding.startDate!.timeIntervalSince1970), anchor: .trailing)
-                            }.frame(height: 10)
+                                Rectangle().fill(Color.accentColor)
+                                    .scaleEffect(x: 1-(context.date.timeIntervalSince1970-finding.startDate!.timeIntervalSince1970)/(finding.endDate!.timeIntervalSince1970-finding.startDate!.timeIntervalSince1970), anchor: .leading)
+                            }.frame(height: 20)
                         }
                     }
                 }.frame(height: 95)
-                    .offset(y: 10)
                 
                 ZStack {
                     MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lineCoordinates: allGuessCoordinates).environmentObject(finding)
                     .edgesIgnoringSafeArea(.all)
-                    .offset(y: 0)
                     
                     VStack {
-                        HStack(alignment: .top) {
-                            Spacer()
-                            TimelineView(.animation) { context in
-                                if let secondsRemaining = finding.endDate!.timeIntervalSince1970-context.date.timeIntervalSince1970 {
-                                    if secondsRemaining > 0 {
-                                        Text("\(round(secondsRemaining)) seconds remaining")
-                                    } else {
-                                        Text("Time's Up!")
-                                            .onAppear{
-                                                finding.makeGuess(location: pinLocation)
-                                            }
-                                    }
-                                }
-                            }
-                        }
+                        Spacer()
                         
                         Button("Submit guess") {
                             UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
                             finding.makeGuess(location: pinLocation)
                         }.buttonStyle(ProminentButtonStyle())
-                        Spacer()
+                            .padding()
+                            .padding(.bottom)
+                            .disabled(pinLocation == CLLocationCoordinate2D(latitude: 37.334_900,
+                                                                            longitude: -122.009_020))
                     }
                 }
             }
-//            .onChange(of: self.timeRemaining, perform: { idk in
-//                if timeRemaining <= 0 {
-//                    if finding.gameState == .guessingLocation {
-//                        print("Times UP!")
-//                        finding.makeGuess(location: pinLocation)
-//                         wait 3 seconds and hope everyones guess made it to the user!
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-//                            self.addResultLines()
-//                        }
-//                        finding.gameState = .end
-//                    }
-//                }
-//            })
     }
 }

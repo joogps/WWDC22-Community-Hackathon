@@ -14,7 +14,7 @@ struct PeopleView: View {
     var body: some View {
         VStack {
             HStack(spacing: 16) {
-                Text("People")
+                Text("Players")
                     .font(.title.bold())
                     .fixedSize()
                 Spacer()
@@ -45,6 +45,14 @@ struct PeopleView: View {
             }.padding(24)
             
             Spacer()
+            
+            VStack {
+                Image(systemName: "figure.walk")
+                    .font(.system(size: 64))
+                Text("waiting for other players")
+            }.foregroundStyle(.tertiary)
+            
+            Spacer()
         }
         .animation(.spring(), value: finding.people)
     }
@@ -70,6 +78,8 @@ extension View {
     func sheetStyle() -> some View {
         Rectangle().fill(Material.ultraThinMaterial)
             .overlay {
+                Color.black.opacity(0.35)
+                    .ignoresSafeArea()
                 self
             }
             .ignoresSafeArea()
@@ -112,18 +122,29 @@ public struct ElasticButtonStyle: ButtonStyle {
 public struct ProminentButtonStyle: ButtonStyle {
     public init() {}
     
-    public func makeBody(configuration: Configuration) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color.accentColor.shadow(.inner(color: .white.opacity(0.25), radius: 4, y: 2)))
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(.clear.shadow(.inner(color: .accentColor.opacity(1.0), radius: 4, y: -4)))
-                .saturation(50.0)
-                .brightness(50.0)
-            configuration.label
-                .font(.title2.bold())
-                .shadow(radius: 0, y: -1)
-        }.elastic(active: configuration.isPressed)
+    public func makeBody(configuration: ButtonStyle.Configuration) -> some View {
+        ProminentButton(configuration: configuration)
+    }
+    
+    struct ProminentButton: View {
+        let configuration: ButtonStyle.Configuration
+        @Environment(\.isEnabled) private var isEnabled: Bool
+        
+        var body: some View {
+            ZStack {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(Color.accentColor.shadow(.inner(color: .white.opacity(0.25), radius: 4, y: 2)))
+                
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(.clear.shadow(.inner(color: .accentColor.opacity(1.0), radius: 4, y: -4)))
+                    .saturation(50.0)
+                    .brightness(50.0)
+                configuration.label
+                    .font(.title2.bold())
+                    .shadow(radius: 0, y: -1)
+            }.grayscale(isEnabled ? 0 : 1)
             .frame(height: 60)
+            .elastic(active: configuration.isPressed)
+        }
     }
 }
