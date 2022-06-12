@@ -146,7 +146,7 @@ class FindingSession: ObservableObject {
             guard let self = self else { return }
             
             if let game = self.game {
-                if game.endGuessTime.timeIntervalSinceNow <= 0 {
+                if (game.endGuessTime?.timeIntervalSinceNow ?? 0) <= 0 {
                     self.gameDidEnd()
                 }
             }
@@ -179,7 +179,16 @@ class FindingSession: ObservableObject {
     // this will ONLY be run by selectors
     func selectLocation(location: CLLocationCoordinate2D) {
         guard let me = me else { return }
-        let gameWithLocation = Game(locationSelector: me, location: location, endGuessTime: <#T##Date?#>)
+        let location = SelectorLocation(location: location)
+        gameState = .selectorWaitingForGuesses
+        if let messenger = messenger {
+            Task {
+                do {
+                    try await messenger.send(location)
+                } catch {
+                }
+            }
+        }
     }
     
     // this will ONLY be run by guessers
@@ -219,8 +228,11 @@ class FindingSession: ObservableObject {
 
 struct Game: Codable {
     var locationSelector: Person
-    var location: CLLocationCoordinate2D?
-    var endGuessTime: Date?
+    var endGuessTime: Date
+}
+
+struct SelectorLocation: Codable {
+    var location: CLLocationCoordinate2D
 }
 
 struct Guess: Codable {
