@@ -18,7 +18,7 @@ struct GameView: View {
                 VStack {
                     Text("Pick a place")
                     Button("Submit Golden Gate") {
-                        finding.selectLocation(location: .init(latitude: 37.73536, longitude: -122.40709))
+                        finding.selectLocation(location: .init(latitude: 37.33044, longitude: -121.89355))
                     }.buttonStyle(ProminentButtonStyle())
                 }.padding()
             case .selectorWaitingForGuesses:
@@ -29,6 +29,7 @@ struct GameView: View {
                         Text("Find the place!")
                         LookAroundView(coordinate: selectedLocation) {
                             GuessingView()
+                                .environmentObject(finding)
                         }
                     }
                 } else {
@@ -44,10 +45,14 @@ struct GameView: View {
             case .waitingForSelector:
                 Text("\(finding.selector?.name ?? "Someone") is picking a place")
                     .bold()
-            case .timeLimitUp:
+            case .end:
                 Text("Done! guesses: \(finding.guesses.description)")
             case .waitingForPlayers:
                 EmptyView()
+            }
+        }.onChange(of: finding.gameState) { state in
+            if state != .guessingLocation {
+                UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
             }
         }
     }
