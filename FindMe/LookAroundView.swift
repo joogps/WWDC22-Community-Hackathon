@@ -117,6 +117,7 @@ struct MakeGuessView: View {
     @State var pinLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334_900,
                                                                             longitude: -122.009_020)
     let justATimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -192,6 +193,7 @@ struct MakeGuessView: View {
                     self.timeRemaining = endTime.timeIntervalSinceNow
                     print("timeRemaining: \(timeRemaining)")
                 }
+                
             }
             .onChange(of: self.timeRemaining, perform: { idk in
                 if timeRemaining <= 0 {
