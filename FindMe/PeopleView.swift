@@ -12,61 +12,55 @@ struct PeopleView: View {
     @EnvironmentObject var finding: FindingSession
     
     var body: some View {
-        switch finding.gameState {
-        case .waitingForPlayers:
-            VStack {
-                HStack {
-                    VStack {
-                        Text("Players")
-                            .font(.system(size: 32, weight: .heavy, design: .default))
-                            .fixedSize()
-                        
-                        if finding.groupSession == nil {
-                            Button("Start group session") {
-                                Task {
-                                    do {
-                                        let _ = try await FindingActivity().activate()
-                                    } catch {
-                                        
-                                    }
+        VStack {
+            HStack {
+                VStack {
+                    Text("Players")
+                        .font(.system(size: 32, weight: .bold, design: .default))
+                        .fixedSize()
+                    
+                    if finding.groupSession == nil {
+                        Button("Start") {
+                            Task {
+                                do {
+                                    let _ = try await FindingActivity().activate()
+                                } catch {
+                                    
                                 }
                             }
-                        } else {
+                        }.buttonStyle(ProminentButtonStyle())
+                    } else {
+                        if finding.game == nil {
                             Button("Start game") {
-                                finding.startGame()
-                            }
+                                let finder = finding.people.randomElement()!
+                                finding.game = Game(finder: finder)
+                                finding.sendGame()
+                            }.buttonStyle(ProminentButtonStyle())
                         }
-                    }
-                    
-                    Spacer()
-                }
-                
-                LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
-                    ForEach(0..<6) { person in
-                        PersonView()
                     }
                 }
                 
                 Spacer()
-            }.padding(32)
-        case .selectingLocation:
-            Button("submit random") {
-                
             }
-        case .waitingForOthersToGuess:
-            Text("waiting for others to guess. hurry up")
-        case .timeLimitUp:
-            Text("time limit is UP. need to make this view show winner or something")
-        }
-        
+            
+            LazyVGrid(columns: .init(repeating: .init(.flexible()), count: 2)) {
+                ForEach(finding.people) { person in
+                    PersonView(person: person)
+                }
+            }
+            
+            Spacer()
+        }.padding(32)
     }
 }
 
 struct PersonView: View {
+    let person: Person
+    
     var body: some View {
         ZStack {
-            Capsule().fill(.blue)
-            Label("Ryan Du", systemImage: "person.fill")
+            Capsule().fill(Color.accentColor)
+            Label(person.name, systemImage: "person.fill")
                 .bold()
                 .padding()
         }
@@ -87,5 +81,45 @@ extension View {
 struct PeopleView_Previews: PreviewProvider {
     static var previews: some View {
         PeopleView()
+    }
+}
+
+/// Button
+public extension View {
+    func elastic(active: Bool) -> some View {
+        self.modifier(ElasticModifier(active: active))
+    }
+}
+
+struct ElasticModifier: ViewModifier {
+    var active: Bool
+    
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(active ? 0.9 : 1.0)
+            .animation(.spring(), value: active)
+    }
+}
+
+
+public struct ElasticButtonStyle: ButtonStyle {
+    public init() {}
+    
+    public func makeBody(configuration: Configuration) -> some View {
+        configuration.label.elastic(active: configuration.isPressed)
+    }
+}
+
+public struct ProminentButtonStyle: ButtonStyle {
+    public init() {}
+    
+    public func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color.accentColor.shadow(.inner(color: .white.opacity(0.25), radius: 3, y: 3)))
+                .frame(height: 60)
+            configuration.label
+                .font(.headline.bold())
+        }.elastic(active: configuration.isPressed)
     }
 }

@@ -40,25 +40,32 @@ class FindingSession: ObservableObject {
     func configureGroupSession(_ groupSession: GroupSession<FindingActivity>) async {
         DispatchQueue.main.async {
             self.groupSession = groupSession
-            
             self.me = Person(id: groupSession.localParticipant.id)
+            self.people.append(self.me!)
         }
         
         let messenger = GroupSessionMessenger(session: groupSession)
-        
-        DispatchQueue.main.async {
-            self.messenger = messenger
-        }
+        self.messenger = messenger
         
         groupSession.$activeParticipants.sink { activeParticipants in
-            let newParticipants = activeParticipants.filter( { !Set(self.people.map( { $0.id } )).contains($0.id) } )
+            let newParticipants = activeParticipants.filter( { !Set(self.people.map { person in
+                person.id
+            }).contains($0.id) } )
             
-            Task {
-                do {
-                    try await messenger.send(self.me, to: .only(newParticipants))
-                } catch {
+            if let me = self.me {
+                Task {
+                    print("Sending new participants")
+                    do {
+                        try await messenger.send(me, to: .all)
+                    } catch {
+                        
+                    }
                 }
             }
+        }.store(in: &subscriptions)
+        
+        groupSession.$state.sink { state in
+            print("New state: \(state)")
         }.store(in: &subscriptions)
         
         let personTask = Task.detached { [weak self] in
@@ -79,12 +86,15 @@ class FindingSession: ObservableObject {
     }
     
     func handle(_ message: Person) async {
-        // we dont want to append new players if the game has already started
-        // instead they should be added next round
-        if case .waitingForPlayers = gameState {
-            people.append(message)
-        } else {
-            peopleToAddNextRound.append(message)
+        DispatchQueue.main.async {
+            // we dont want to append new players if the game has already started
+            // instead they should be added next round
+            if case .waitingForPlayers = gameState {
+                self.people.append(message)
+                
+            } else {
+                peopleToAddNextRound.append(message)
+            }
         }
     }
     
@@ -153,9 +163,21 @@ class FindingSession: ObservableObject {
                 do {
                     try await messenger.send(guess)
                 } catch {
-                    
                 }
             }
+        }
+    }
+    
+    func leaveSession() {
+        messenger = nil
+        
+        tasks.forEach( { $0.cancel() } )
+        tasks = []
+        subscriptions = []
+        
+        if groupSession != nil {
+            groupSession?.leave()
+            groupSession = nil
         }
     }
 }
@@ -170,10 +192,8 @@ struct Guess: Codable {
     var location: CLLocationCoordinate2D
 }
 
-struct Person: Identifiable, Codable {
+struct Person: Identifiable, Codable, Equatable, Hashable {
     let id: UUID
-    var name: String = "Person"
-    var color: Color = [Color.blue, Color.yellow, Color.red, Color.green].randomElement()!
+    var name: String = UIDevice.current.name
+    // var color: Color = [Color.blue, Color.yellow, Color.red, Color.green].randomElement()!
 }
-
-

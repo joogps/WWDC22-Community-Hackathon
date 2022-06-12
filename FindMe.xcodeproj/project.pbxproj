@@ -19,6 +19,8 @@
 		27F3876A28555CCE003E9615 /* SheetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876928555CCE003E9615 /* SheetPresentation.swift */; };
 		27F3876C285567A6003E9615 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876B285567A6003E9615 /* Color.swift */; };
 		27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */; };
+		27F3877028556E9A003E9615 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3876F28556E9A003E9615 /* LobbyView.swift */; };
+		27F3877228557579003E9615 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F3877128557579003E9615 /* GameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		27F3876928555CCE003E9615 /* SheetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetPresentation.swift; sourceTree = "<group>"; };
 		27F3876B285567A6003E9615 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		27F3876D28556A79003E9615 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
+		27F3876F28556E9A003E9615 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
+		27F3877128557579003E9615 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,9 +77,11 @@
 				27F3875028553820003E9615 /* Info.plist */,
 				272952EE2855270200A095F9 /* FindMeApp.swift */,
 				272952F02855270200A095F9 /* ContentView.swift */,
+				27F3876F28556E9A003E9615 /* LobbyView.swift */,
+				27F3874C285536D0003E9615 /* PeopleView.swift */,
+				27F3877128557579003E9615 /* GameView.swift */,
 				27F387672855527C003E9615 /* LookAroundView.swift */,
 				27F3876928555CCE003E9615 /* SheetPresentation.swift */,
-				27F3874C285536D0003E9615 /* PeopleView.swift */,
 				27F38764285540DD003E9615 /* Group Activity */,
 				272952F22855270400A095F9 /* Assets.xcassets */,
 				272952F42855270400A095F9 /* Preview Content */,
@@ -183,6 +189,8 @@
 				27F3876E28556A79003E9615 /* CLLocationCoordinate2D.swift in Sources */,
 				27F3876128553E18003E9615 /* FindingGroupActivity.swift in Sources */,
 				272952EF2855270200A095F9 /* FindMeApp.swift in Sources */,
+				27F3877228557579003E9615 /* GameView.swift in Sources */,
+				27F3877028556E9A003E9615 /* LobbyView.swift in Sources */,
 				27F38766285540ED003E9615 /* FindingSession.swift in Sources */,
 				27F3874D285536D0003E9615 /* PeopleView.swift in Sources */,
 				27F3876A28555CCE003E9615 /* SheetPresentation.swift in Sources */,
@@ -316,7 +324,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FindMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TW2C8488Q9;
+				DEVELOPMENT_TEAM = V9F4J6KX54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
@@ -330,7 +338,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.christian.FindMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.FindMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -347,7 +355,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"FindMe/Preview Content\"";
-				DEVELOPMENT_TEAM = TW2C8488Q9;
+				DEVELOPMENT_TEAM = V9F4J6KX54;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FindMe/Info.plist;
@@ -361,7 +369,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.christian.FindMe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.FindMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

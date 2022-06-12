@@ -57,7 +57,7 @@ struct SheetPresentationForSwiftUI<Content>: UIViewRepresentable where Content: 
         
         
         hostingController.modalPresentationStyle = .overFullScreen
-        viewController.isModalInPresentation = true
+        //viewController.isModalInPresentation = true
         
         // Set the presentationController as a UISheetPresentationController
         if let sheetController = viewController.presentationController as? UISheetPresentationController {
