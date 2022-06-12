@@ -57,8 +57,14 @@ struct MapView: UIViewRepresentable {
     
     let mapView = MKMapView()
     
+    //poly lines
+    let lineCoordinates: [CLLocationCoordinate2D]
+    
     func makeUIView(context: Context) -> MKMapView {
         mapView.delegate = context.coordinator
+        let polyline = MKPolyline(coordinates: lineCoordinates, count: lineCoordinates.count)
+        mapView.addOverlay(polyline)
+
         return mapView
     }
     
@@ -101,6 +107,17 @@ struct MapView: UIViewRepresentable {
             self.placedPin(coordinate)
             
         }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+          if let routePolyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: routePolyline)
+            renderer.strokeColor = UIColor.systemBlue
+            renderer.lineWidth = 5
+            return renderer
+          }
+          return MKOverlayRenderer()
+        }
+
     }
 }
 
@@ -117,6 +134,16 @@ struct MakeGuessView: View {
     @State var pinLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334_900,
                                                                             longitude: -122.009_020)
     let justATimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
+    
+    //add line coordinates after everyone has guessed
+    @State private var lineCoordinates: [CLLocationCoordinate2D] = [
+        // Steve Jobs theatre
+        CLLocationCoordinate2D(latitude: 37.330828, longitude: -122.007495),
+        // Caffè Macs
+        CLLocationCoordinate2D(latitude: 37.336083, longitude: -122.007356),
+        // Apple wellness center
+        CLLocationCoordinate2D(latitude: 37.336901, longitude:  -122.012345)]
+    
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -165,7 +192,7 @@ struct MakeGuessView: View {
                 
                 
                 ZStack {
-                    MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation)
+                    MapView(centerCoordinate: .constant(region.center), pinLocation: $pinLocation, lineCoordinates: lineCoordinates)
                     
                     
                         .edgesIgnoringSafeArea(.all)
@@ -199,9 +226,18 @@ struct MakeGuessView: View {
                     if finding.gameState == .guessingLocation {
                         print("Times UP!")
                         finding.makeGuess(location: pinLocation)
+                        // wait 3 seconds and hope everyones guess made it to the user!
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            self.addResultLines()
+                        }
                     }
                 }
             })
+        }
+    }
+    func addResultLines() {
+        for guess in self.finding.guesses {
+            self.lineCoordinates.append(guess.location)
         }
     }
 }

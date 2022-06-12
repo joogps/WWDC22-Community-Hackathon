@@ -28,7 +28,7 @@ struct GameView: View {
                     VStack {
                         Text("Find the place!")
                         LookAroundView(coordinate: selectedLocation) {
-                            Text("Ryan's view")
+                            MakeGuessView()
                         }
                     }
                 } else {
