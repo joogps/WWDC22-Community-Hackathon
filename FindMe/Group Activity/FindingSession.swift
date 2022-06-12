@@ -28,7 +28,7 @@ enum GameState {
     // When you are a guesser, and you are waiting for others to make their guesses.
     case guesserWaitingForOthers
     
-    case end
+    case timeLimitUp
 }
 
 class FindingSession: ObservableObject {
@@ -42,11 +42,9 @@ class FindingSession: ObservableObject {
     @Published var me: Person?
     @Published var selector: Person?
     
-    @Published var guesses: [GuessMessage] = []
+    @Published var guesses: [Guess] = []
     @Published var selectedLocation: CLLocationCoordinate2D?
-    
-    @Published var startDate: Date?
-    @Published var endDate: Date?
+    @Published var endTime: Date?
     
     @AppStorage("name") var name = "Person"
     @Published var location: CLLocationCoordinate2D?
@@ -103,7 +101,7 @@ class FindingSession: ObservableObject {
         self.tasks.insert(locationSelectorMessageTask)
         
         let guessMessageTask = Task.detached { [weak self] in
-            for await (message, _) in messenger.messages(of: GuessMessage.self) {
+            for await (message, _) in messenger.messages(of: Guess.self) {
                 await self?.handle(message)
             }
         }
@@ -124,9 +122,8 @@ class FindingSession: ObservableObject {
             // we dont want to append new players if the game has already started
             // instead they should be added next round
             if case .waitingForPlayers = self.gameState {
-                if !self.people.contains { $0.id == message.id } {
-                    self.people.append(message)
-                }
+                self.people.append(message)
+                
             } else {
                 self.peopleToAddNextRound.append(message)
             }
@@ -134,40 +131,31 @@ class FindingSession: ObservableObject {
     }
     
     func handle(_ message: SetLocationSelectorMessage) async {
-        DispatchQueue.main.async {
-            self.selector = message.locationSelector
-            
-            if message.locationSelector.id == self.me?.id {
-                self.gameState = .selectLocationForOthers
-            } else {
-                self.gameState = .waitingForSelector
-            }
+        selector = message.locationSelector
+        
+        if message.locationSelector.id == me?.id {
+            gameState = .selectLocationForOthers
+        } else {
+            gameState = .waitingForSelector
         }
     }
     
-    func handle(_ message: GuessMessage) async {
-        DispatchQueue.main.async {
-            self.guesses.append(message)
-            if self.guesses.count == self.people.count-1 {
-                self.gameState = .end
-            }
+    func handle(_ message: Guess) async {
+        guesses.append(message)
+        if guesses.count == people.count {
+            gameState = .timeLimitUp
         }
     }
     
     func handle(_ message: SelectedLocationMessage) async {
         if case .waitingForSelector = gameState {
-            DispatchQueue.main.async {
-                self.selectedLocation = message.location
-                self.gameState = .guessingLocation
-                
-                self.startDate = message.startDate
-                self.endDate = message.endDate
-            }
+            selectedLocation = message.location
+            gameState = .guessingLocation
         }
     }
     
     func startGame() {
-        let selector = people.first!
+        let selector = people.randomElement()!
         let selectorMessage = SetLocationSelectorMessage(locationSelector: selector)
         
         if selector.id == me?.id {
@@ -191,12 +179,9 @@ class FindingSession: ObservableObject {
     
     // this will ONLY be run by selectors
     func selectLocation(location: CLLocationCoordinate2D) {
-        let selectMessage = SelectedLocationMessage(location: location,
-                                                    startDate: .now,
-                                                    endDate: .now + 90)
+        let selectMessage = SelectedLocationMessage(location: location, endGuessTime: .now + 90)
         gameState = .selectorWaitingForGuesses
         selectedLocation = location
-        
         if let messenger = messenger {
             Task {
                 do {
@@ -210,23 +195,15 @@ class FindingSession: ObservableObject {
     // this will ONLY be run by guessers
     func makeGuess(location: CLLocationCoordinate2D) {
         guard let me = me else { return }
-        if !guesses.contains(where: { $0.personId == me.id }) {
-            let guess = GuessMessage(personId: me.id, location: location)
-            
-            guesses.append(guess)
-            
-            gameState = .guesserWaitingForOthers
-            if self.guesses.count == self.people.count-1 {
-                self.gameState = .end
-            }
-            
-            if let messenger = messenger {
-                Task {
-                    do {
-                        try await messenger.send(guess)
-                    } catch {
-                        
-                    }
+        let guess = Guess(person: me, location: location)
+        gameState = .guesserWaitingForOthers
+        
+        if let messenger = messenger {
+            Task {
+                do {
+                    try await messenger.send(guess)
+                } catch {
+                    
                 }
             }
         }
@@ -252,12 +229,12 @@ struct SetLocationSelectorMessage: Codable {
 
 struct SelectedLocationMessage: Codable {
     var location: CLLocationCoordinate2D
-    var startDate: Date
-    var endDate: Date
+    var endGuessTime: Date
 }
 
-struct GuessMessage: Codable {
-    var personId: UUID
+struct Guess: Codable, Identifiable {
+    var id: UUID { person.id }
+    var person: Person
     var location: CLLocationCoordinate2D
 }
 

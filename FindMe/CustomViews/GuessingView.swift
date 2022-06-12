@@ -10,16 +10,16 @@ import MapKit
 
 struct GuessingView: View {
     @EnvironmentObject var finding: FindingSession
-    
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 37.334_900,
                                        longitude: -122.009_020),
         latitudinalMeters: 750,
         longitudinalMeters: 750
     )
-    
+    @State var timeRemaining = 44.0
     @State var pinLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 37.334_900,
                                                                             longitude: -122.009_020)
+    let justATimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     //add line coordinates after everyone has guessed
     @State private var lineCoordinates: [CLLocationCoordinate2D] = [
@@ -31,6 +31,7 @@ struct GuessingView: View {
         CLLocationCoordinate2D(latitude: 37.336901, longitude:  -122.012345)]
     
     var body: some View {
+        GeometryReader { geo in
             VStack {
                 ZStack {
                     Rectangle()
@@ -41,63 +42,81 @@ struct GuessingView: View {
                     VStack{
                         HStack {
                             Text("Make Your Guess")
-                                .font(.title2.bold())
+                                .font(.system(size: 20,weight: .bold))
                                 .padding(.horizontal)
                             Spacer()
-                            Text("\(finding.guesses.count)/\(finding.people.count-1)")
+                            Text("\(finding.guesses.count)/\(finding.people.count)")
                                 .font(.system(size: 16, weight: .light))
                                 .padding(.horizontal)
                             
-                            InitialsView(initials: finding.me?.initials ?? "You")
+                            ZStack {
+                                Text("JG")
+                                    .padding()
+                                    .background(
+                                        Circle()
+                                            .fill(.red)
+                                        
+                                    )
+                            }.padding(.horizontal)
                         }
-                        .padding()
                         
-                        TimelineView(.animation) { context in
-                            ZStack(alignment: .leading) {
-                                Rectangle().fill(.white)
-                                Rectangle().fill(.blue)
-                                    .scaleEffect(x: (context.date.timeIntervalSince1970-finding.startDate!.timeIntervalSince1970)/(finding.endDate!.timeIntervalSince1970-finding.startDate!.timeIntervalSince1970), anchor: .trailing)
-                            }.frame(height: 10)
+                        ZStack(alignment: .leading){
+                            Rectangle().frame( height: 10).foregroundColor(.white)
+                            Rectangle().frame(width: (self.timeRemaining / 90.0) * geo.size.width, height: 10).foregroundColor(.blue)
                         }
                     }
                 }.frame(height: 95)
-                    .offset(y: 10)
+                    .offset(y:10)
+                
                 
                 ZStack {
                     MapView(centerCoordinate: .constant(region.center),
                             pinLocation: $pinLocation,
                             lineCoordinates: lineCoordinates)
                     .edgesIgnoringSafeArea(.all)
-                    .offset(y: 0)
+                    .offset(y:-10)
                     
-                    VStack {
+                    VStack{
                         HStack(alignment: .top) {
                             Spacer()
-                            TimelineView(.animation) { context in
-                                Text("\(round(finding.endDate!.timeIntervalSince1970-context.date.timeIntervalSince1970)) seconds remaining")
+                            if self.timeRemaining <= 0 {
+                                Text("Time's up")
+                            } else {
+                                Text("\(Int(round(self.timeRemaining))) seconds remaining")
                             }
                         }
-                        
                         Button("Submit guess") {
-                            UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true)
                             finding.makeGuess(location: pinLocation)
                         }.buttonStyle(ProminentButtonStyle())
                         Spacer()
                     }
                 }
             }
-            /*.onChange(of: self.timeRemaining, perform: { idk in
+            .onReceive(justATimer) { time in
+                if let endTime = finding.endTime {
+                    self.timeRemaining = endTime.timeIntervalSinceNow
+                    print("timeRemaining: \(timeRemaining)")
+                }
+                
+            }
+            .onChange(of: self.timeRemaining, perform: { idk in
                 if timeRemaining <= 0 {
                     if finding.gameState == .guessingLocation {
                         print("Times UP!")
                         finding.makeGuess(location: pinLocation)
                         // wait 3 seconds and hope everyones guess made it to the user!
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            //self.addResultLines()
+                            self.addResultLines()
                         }
-                        finding.gameState = .end
+                        finding.gameState = .timeLimitUp
                     }
                 }
-            })*/
+            })
+        }
+    }
+    func addResultLines() {
+        for guess in self.finding.guesses {
+            self.lineCoordinates.append(guess.location)
+        }
     }
 }
