@@ -12,7 +12,10 @@ struct GameView: View {
     
     var body: some View {
         ZStack {
-            Color.accentColor.ignoresSafeArea()
+            Rectangle()
+                .fill(Color.accentColor.gradient)
+                .ignoresSafeArea()
+            
             Group {
                 switch finding.gameState {
                 case .selectLocationForOthers:
@@ -20,17 +23,22 @@ struct GameView: View {
                 case .selectorWaitingForGuesses:
                     Text("\(finding.guesses.count) guesses have already been made.")
                 case .guessingLocation:
-                    if let selectedLocation = finding.selectedLocation {
+                    ZStack {
+                        Rectangle()
+                            .fill(.linearGradient(colors: [.black, .clear], startPoint: .top, endPoint: .bottom))
+                            .ignoresSafeArea()
+                        
                         VStack {
                             Text("Tap below to explore!")
-                                .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
-                            LookAroundView(coordinate: selectedLocation) {
-                                GuessingView()
-                                    .environmentObject(finding)
+                                .font(.custom("SF Pro Expanded Bold", size: 20))
+                                .foregroundColor(.white)
+                            if let selectedLocation = finding.selectedLocation {
+                                LookAroundView(coordinate: selectedLocation) {
+                                    GuessingView()
+                                        .environmentObject(finding)
+                                }
                             }
                         }
-                    } else {
-                        WaitingTitle()
                     }
                 case .guesserWaitingForOthers:
                     GuessAccomplishment()
@@ -43,8 +51,7 @@ struct GameView: View {
                     EmptyView()
                 }
             }
-            .transition(.move(edge: .bottom).combined(with: .opacity))
-            .zIndex(1)
+            .transition(.opacity)
             .animation(.spring(), value: finding.gameState)
         }
     }
@@ -56,10 +63,10 @@ struct GuessAccomplishment: View {
     var body: some View {
         VStack {
             Text("Godd guess!")
-                .font(.custom("SF Pro Expanded Heavy", size: 28, relativeTo: .title))
+                .font(.custom("SF Pro Expanded Heavy", size: 28))
             Text("\(finding.people.count-finding.guesses.count) players are yet to make theirs.")
-                .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
-        }.padding()
+                .font(.custom("SF Pro Expanded Bold", size: 20))
+        }.padding(64)
     }
 }
 
@@ -67,8 +74,15 @@ struct WaitingTitle: View {
     @EnvironmentObject var finding: FindingSession
     
     var body: some View {
-        Text("\(finding.selector?.name ?? "Someone") is picking a place")
-            .font(.custom("SF Pro Expanded Bold", size: 20, relativeTo: .body))
+        VStack {
+            Text("\(finding.selector?.name ?? "Someone") is picking a place")
+                .font(.custom("SF Pro Expanded Bold", size: 20))
+            Rectangle()
+                .fill(.white)
+                .opacity(0.5)
+                .frame(height: 2)
+        }.padding(64)
+            .multilineTextAlignment(.center)
     }
 }
 

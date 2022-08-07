@@ -37,9 +37,9 @@ struct GuessingView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("Make Your Guess")
-                                    .font(.custom("SF Pro Expanded Heavy", size: 24, relativeTo: .title2))
+                                    .font(.custom("SF Pro Expanded Heavy", size: 24))
                                     .allowsTightening(true)
-                                    .minimumScaleFactor(0.0)
+                                    .minimumScaleFactor(0.1)
                                 
                                 TimelineView(.animation) { context in
                                     Text("\(Int(finding.endDate!.timeIntervalSince1970-context.date.timeIntervalSince1970)) seconds remaining")

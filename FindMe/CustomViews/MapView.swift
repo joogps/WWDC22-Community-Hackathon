@@ -56,7 +56,6 @@ struct MapView: UIViewRepresentable {
     
     let mapView = MKMapView()
     
-    
     //poly lines
     var lines: Bool
     

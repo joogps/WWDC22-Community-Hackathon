@@ -15,7 +15,7 @@ struct PeopleView: View {
         VStack {
             HStack(spacing: 16) {
                 Text("Players")
-                    .font(.custom("SF Pro Expanded Heavy", size: 28, relativeTo: .title))
+                    .font(.custom("SF Pro Expanded Heavy", size: 28))
                     .font(.title.bold())
                     .fixedSize()
                 Spacer()
@@ -137,7 +137,7 @@ public struct ProminentButtonStyle: ButtonStyle {
                     .fill(Color.accentColor.shadow(.inner(color: .white.opacity(0.25), radius: 4, y: 2)))
                 
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(.clear.shadow(.inner(color: .accentColor.opacity(1.0), radius: 4, y: -4)))
+                    .fill(.clear.shadow(.inner(color: .accentColor, radius: 4, y: -4)))
                     .saturation(50.0)
                     .brightness(50.0)
                 

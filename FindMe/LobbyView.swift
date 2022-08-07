@@ -34,7 +34,7 @@ struct LobbyView: View {
                             .opacity(0.5)
                         Text("FindMe")
                     }
-                    .font(.custom("SF Pro Expanded Heavy", size: 32, relativeTo: .largeTitle))
+                    .font(.custom("SF Pro Expanded Heavy", size: 32))
                     .padding(.vertical, 80)
                     .padding(.horizontal, 30)
                     Spacer()
